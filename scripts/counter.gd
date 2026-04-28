@@ -44,7 +44,7 @@ func _refresh_display() -> void:
 	# Stack bouquets above the counter pillar so they're visible despite the small surface.
 	for i in bouquets.size():
 		var b: Array = bouquets[i]
-		var bx := -32
+		var bx := 0
 		var by := -VISUAL_HEIGHT / 2.0 - 24 - i * 28
 		var bg := make_rect(Vector2(64, 22), Color(0.95, 0.95, 0.95, 0.95), Vector2(bx, by))
 		visual_root.add_child(bg)

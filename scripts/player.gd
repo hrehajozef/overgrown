@@ -10,10 +10,10 @@ extends CharacterBody2D
 # Designed so a 2nd player can be spawned later with player_id = 1 and a
 # distinct input action prefix (e.g. "p2_move_left").
 
-const SPEED := 270.0
+const SPEED := 350.0
 const CAN_CAPACITY := 300.0
-const CAN_REFILL_RATE := 150.0   # %/sec at the tap → 2 seconds for an empty can
-const CAN_USE_RATE := 50.0       # %/sec into a pot
+const CAN_REFILL_RATE := 150.0 # %/sec at the tap → 2 seconds for an empty can
+const CAN_USE_RATE := 50.0 # %/sec into a pot
 const MAX_SEEDS := 10
 const BODY_RADIUS := 18.0
 const INTERACT_RADIUS := 40.0
@@ -25,8 +25,8 @@ var game
 
 var water: float = CAN_CAPACITY
 var ui_open: bool = false
-var seed_stack: Array = []        # ints (FlowerDB.Type); top = back()
-var cut_flower_stack: Array = []  # ints; unlimited
+var seed_stack: Array = [] # ints (FlowerDB.Type); top = back()
+var cut_flower_stack: Array = [] # ints; unlimited
 
 var interact_area: Area2D
 var current_interactable: Interactable = null
@@ -84,16 +84,16 @@ func _process(delta: float) -> void:
 	if current_interactable == null:
 		return
 	if Input.is_action_just_pressed(_a("interact")):
-		current_interactable.interact(self)
+		current_interactable.interact(self )
 	if Input.is_action_just_pressed(_a("action2")):
-		current_interactable.action2_press(self)
+		current_interactable.action2_press(self )
 	if Input.is_action_pressed(_a("action2")):
-		current_interactable.continuous_action(self, delta)
+		current_interactable.continuous_action(self , delta)
 	if current_interactable is Pot:
 		var pot: Pot = current_interactable
 		for i in FlowerDB.TYPE_COUNT:
 			if Input.is_action_just_pressed(_a("plant_%d" % (i + 1))):
-				pot.plant_seed_of_type(self, i)
+				pot.plant_seed_of_type(self , i)
 
 func _a(action: String) -> String:
 	return input_prefix + action

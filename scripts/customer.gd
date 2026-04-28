@@ -8,9 +8,9 @@ const WALK_SPEED := 110.0
 
 var spot_index: int = 0
 var spot_position: Vector2 = Vector2.ZERO
-var exit_x: float = -120.0      # x to walk to once leaving (sign comes from spawn side)
-var order: Array = []           # sorted ints
-var patience: float = 0.0       # 0 = infinite
+var exit_x: float = -120.0 # x to walk to once leaving (sign comes from spawn side)
+var order: Array = [] # sorted ints
+var patience: float = 0.0 # 0 = infinite
 var patience_left: float = 0.0
 var at_spot: bool = false
 var served: bool = false
@@ -25,8 +25,8 @@ func _ready() -> void:
 	z_index = 3
 	var skin := Color(randf_range(0.85, 1.0), randf_range(0.7, 0.9), randf_range(0.6, 0.8))
 	var shirt := Color(randf_range(0.3, 0.9), randf_range(0.3, 0.9), randf_range(0.3, 0.9))
-	add_child(Interactable.make_circle(16, shirt))
-	var head := Interactable.make_circle(10, skin)
+	add_child(Interactable.make_circle(32, shirt))
+	var head := Interactable.make_circle(20, skin)
 	head.position = Vector2(0, -16)
 	add_child(head)
 	bubble_root = Node2D.new()
@@ -71,7 +71,7 @@ func _process(delta: float) -> void:
 		modulate.a = max(0.0, modulate.a - delta * 0.6)
 		if (dir > 0.0 and position.x > exit_x) or (dir < 0.0 and position.x < exit_x):
 			if game:
-				game.remove_customer(self)
+				game.remove_customer(self )
 		return
 	if served:
 		return
