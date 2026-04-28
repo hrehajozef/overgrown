@@ -8,14 +8,14 @@ extends Interactable
 #   BLOOMED  -> Space cuts; player picks up a single flower of this type
 #   DEAD     -> Space cleans
 
-enum State { EMPTY, GROWING, BLOOMED, DEAD }
+enum State {EMPTY, GROWING, BLOOMED, DEAD}
 
 var state: int = State.EMPTY
 var flower_type: int = 0
-var growth: float = 0.0          # 0..100
-var water_level: float = 0.0     # 0..100
-var dry_acc: float = 0.0         # seconds at 0% water
-var bloom_acc: float = 0.0       # seconds since blooming
+var growth: float = 0.0 # 0..100
+var water_level: float = 0.0 # 0..100
+var dry_acc: float = 0.0 # seconds at 0% water
+var bloom_acc: float = 0.0 # seconds since blooming
 
 var pot_visual: ColorRect
 var soil_visual: ColorRect
@@ -30,29 +30,31 @@ func _ready() -> void:
 	super._ready()
 	# Solid core — player can walk up close (interact zone is wider than this).
 	add_solid_circle(22.0, Vector2(0, 0))
-	pot_visual = make_rect(Vector2(56, 36), Color(0.45, 0.25, 0.15), Vector2(-28, -10))
-	add_child(pot_visual)
-	soil_visual = make_rect(Vector2(50, 8), Color(0.30, 0.18, 0.10), Vector2(-25, -14))
-	add_child(soil_visual)
-	stem_visual = make_rect(Vector2(3, 28), Color(0.20, 0.55, 0.20), Vector2(-1, -36))
-	stem_visual.visible = false
-	add_child(stem_visual)
-	flower_visual = make_circle(12, Color(0.5, 0.5, 0.5))
-	flower_visual.position = Vector2(0, -38)
-	flower_visual.visible = false
-	add_child(flower_visual)
-	# growth bar
-	add_child(make_rect(Vector2(50, 4), Color(0, 0, 0, 0.5), Vector2(-25, 18)))
-	growth_bar = make_rect(Vector2(50, 4), Color(0.40, 0.90, 0.30), Vector2(-25, 18))
-	add_child(growth_bar)
-	# water / dry bar
-	add_child(make_rect(Vector2(50, 3), Color(0, 0, 0, 0.5), Vector2(-25, 24)))
-	water_bar = make_rect(Vector2(50, 3), Color(0.30, 0.70, 1.00), Vector2(-25, 24))
-	add_child(water_bar)
-	# label
-	label_node = make_label("", Vector2(-40, -60), 80)
-	add_child(label_node)
+	if not _bind_existing_visual_nodes():
+		push_error("Pot '%s' is missing required visual children in the scene." % name)
+		set_process(false)
+		return
 	_refresh_visuals()
+
+func _bind_existing_visual_nodes() -> bool:
+	for child in get_children():
+		if child is ColorRect:
+			var rect := child as ColorRect
+			if rect.size == Vector2(56, 36) and rect.position == Vector2(-28, -10):
+				pot_visual = rect
+			elif rect.size == Vector2(50, 8) and rect.position == Vector2(-25, -14):
+				soil_visual = rect
+			elif rect.size == Vector2(3, 28) and rect.position == Vector2(-1, -36):
+				stem_visual = rect
+			elif rect.size.y == 4.0 and rect.position == Vector2(-25, 18):
+				growth_bar = rect
+			elif rect.size.y == 3.0 and rect.position == Vector2(-25, 24):
+				water_bar = rect
+		elif child is Polygon2D and flower_visual == null:
+			flower_visual = child as Polygon2D
+		elif child is Label and label_node == null:
+			label_node = child as Label
+	return pot_visual != null and soil_visual != null and stem_visual != null and flower_visual != null and growth_bar != null and water_bar != null and label_node != null
 
 func _process(delta: float) -> void:
 	match state:

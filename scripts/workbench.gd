@@ -9,7 +9,7 @@ const VISUAL_HEIGHT := 80.0
 const BODY_WIDTH := 240.0
 const BODY_HEIGHT := 60.0
 
-var game  # Main reference; needed to forward bouquets to the counter
+var game # Main reference; needed to forward bouquets to the counter
 var inventory: Array = [0, 0, 0]
 var ui_open_for: Player = null
 
@@ -20,30 +20,22 @@ func _ready() -> void:
 	super._ready()
 	# Solid body — player works around the workbench, can't walk through.
 	add_solid_rect(Vector2(BODY_WIDTH, BODY_HEIGHT), Vector2(0, 0))
-	# Tan top
-	add_child(make_rect(Vector2(VISUAL_WIDTH, VISUAL_HEIGHT), Color(0.78, 0.58, 0.36),
-		Vector2(-VISUAL_WIDTH / 2.0, -VISUAL_HEIGHT / 2.0)))
-	# Dark front edge
-	add_child(make_rect(Vector2(VISUAL_WIDTH, 6), Color(0.55, 0.40, 0.22),
-		Vector2(-VISUAL_WIDTH / 2.0, -VISUAL_HEIGHT / 2.0)))
-	# Dark working surface in the middle (cutting board) — solid feel.
-	add_child(make_rect(Vector2(VISUAL_WIDTH - 60, VISUAL_HEIGHT - 30), Color(0.30, 0.22, 0.15),
-		Vector2(-(VISUAL_WIDTH - 60) / 2.0, -(VISUAL_HEIGHT - 30) / 2.0)))
-	# Title above the bench
-	add_child(make_label("Workbench", Vector2(-VISUAL_WIDTH / 2.0, -VISUAL_HEIGHT / 2.0 - 24),
-		VISUAL_WIDTH))
-	# Inventory display along the cutting board
-	for i in FlowerDB.TYPE_COUNT:
-		var lbl := Label.new()
-		var x_offset: float = -90.0 + i * 90.0  # spread across the bench
-		lbl.position = Vector2(x_offset - 20, -18)
-		lbl.size = Vector2(40, 32)
-		lbl.add_theme_color_override("font_color", FlowerDB.TYPE_COLORS[i])
-		lbl.add_theme_font_size_override("font_size", 18)
-		lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		add_child(lbl)
-		inv_labels.append(lbl)
+	if not _bind_existing_inventory_labels():
+		push_error("Workbench '%s' is missing inventory labels in the scene." % name)
+		return
 	_refresh_inventory_labels()
+
+func _bind_existing_inventory_labels() -> bool:
+	inv_labels.clear()
+	for child in get_children():
+		if child is Label:
+			var lbl := child as Label
+			if lbl.text.find("\n") != -1:
+				inv_labels.append(lbl)
+	if inv_labels.size() == FlowerDB.TYPE_COUNT:
+		return true
+	inv_labels.clear()
+	return false
 
 func interact(player) -> void:
 	if player.has_cut_flower():

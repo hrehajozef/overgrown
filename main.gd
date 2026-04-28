@@ -1,12 +1,6 @@
 extends Node2D
 
-# Top-level game manager: builds the world, runs the day timer + economy,
-# spawns customers. Designed so a 2nd Player can be added later.
-
-# ── Layout (1280×720) ───────────────────────────────────────────
-# Customers walk in from the left, queue at three counter spots.
-# Counter on left, then workbench, then a 3×2 pot grid, then seed
-# boxes and the water tap on the right wall.
+# Top-level game manager: uses nodes from the scene instead of building them.
 
 const POT_POSITIONS := [
 	Vector2(320, 110), Vector2(540, 110), Vector2(760, 110), Vector2(980, 110),
@@ -19,13 +13,11 @@ const CUSTOMER_SPOTS := [
 const CUSTOMER_SPAWN_X := 1400.0
 const CUSTOMER_EXIT_X := 1400.0
 
-const DAY_LENGTH := 300.0          # 5 minutes
+const DAY_LENGTH := 300.0
 const STARTING_MONEY := 30
 const STARTING_RENT := 40
 const RENT_INCREASE_PER_DAY := 20
 
-# Patience schedule: day 1 is infinite, day 2 starts at [PATIENCE_LOW, PATIENCE_HIGH],
-# both bounds drop by PATIENCE_STEP per following day, clamped to PATIENCE_FLOOR.
 const PATIENCE_LOW := 100.0
 const PATIENCE_HIGH := 130.0
 const PATIENCE_STEP := 5.0
@@ -48,11 +40,24 @@ var customers: Array = []
 func _ready() -> void:
 	randomize()
 	_setup_input_map()
-	_build_world()
+	
+	# LINKING NODES: Find nodes already present in the scene tree.
+	# Adjust the names inside get_node() if you named them differently in the editor.
+	# The "$" symbol is a shorthand for get_node().
+	counter = get_node_or_null("Counter")
+	workbench = get_node_or_null("Workbench")
+	player = get_node_or_null("Player")
+	hud = get_node_or_null("HUD")
+	
+	# Ensure the objects know about the game manager
+	if counter: counter.game = self
+	if workbench: workbench.game = self
+	if player: player.game = self
+	if hud: hud.game = self
+	
+	_build_world() # This is now empty or only for small adjustments
 
 func _setup_input_map() -> void:
-	# Bind keys programmatically so we don't depend on project.godot input format.
-	# When adding a 2nd player later, register a parallel set with prefix "p2_".
 	_bind("move_left", [KEY_A, KEY_LEFT])
 	_bind("move_right", [KEY_D, KEY_RIGHT])
 	_bind("move_up", [KEY_W, KEY_UP])
@@ -73,62 +78,13 @@ func _bind(action: String, keys: Array) -> void:
 		InputMap.action_add_event(action, ev)
 
 func _build_world() -> void:
-	# Floor
-	var bg := ColorRect.new()
-	bg.color = Color(0.55, 0.74, 0.45)
-	bg.size = Vector2(1280, 720)
-	bg.z_index = -10
-	add_child(bg)
-	# Decorative zone tiles
-	# Floor zones — soft tan rugs around each work area, matching the layout sketch.
-	_zone(Vector2(20, 140), Vector2(140, 480), Color(0.86, 0.82, 0.70))    # supply column (seeds)
-	_zone(Vector2(1100, 120), Vector2(160, 200), Color(0.86, 0.82, 0.70))  # tap nook
-	_zone(Vector2(180, 540), Vector2(380, 180), Color(0.85, 0.74, 0.55))   # workbench area
-	_zone(Vector2(720, 540), Vector2(560, 180), Color(0.85, 0.74, 0.55))   # counter + customers
-	_zone(Vector2(220, 50), Vector2(880, 130), Color(0.50, 0.66, 0.40))    # garden patch (top)
-	# Pots — 4 in a row at the top
-	for p in POT_POSITIONS:
-		var pot := Pot.new()
-		pot.position = p
-		add_child(pot)
-	# Seed boxes — vertical column on the left wall (Red top, Yellow middle, Blue bottom)
-	for i in FlowerDB.TYPE_COUNT:
-		var sb := SeedBox.new()
-		sb.flower_type = i
-		sb.position = Vector2(90, 220 + i * 180)
-		add_child(sb)
-	# Water tap — top right
-	var tap := WaterTap.new()
-	tap.position = Vector2(1180, 220)
-	add_child(tap)
-	# Workbench — bottom-left, wide horizontal
-	workbench = Workbench.new()
-	workbench.position = Vector2(370, 620)
-	workbench.game = self
-	add_child(workbench)
-	# Counter — small vertical pillar at bottom-center, customers queue to its right
-	counter = Counter.new()
-	counter.position = Vector2(760, 605)
-	counter.game = self
-	add_child(counter)
-	# HUD
-	hud = HUD.new()
-	hud.game = self
-	add_child(hud)
-	# Player
-	player = Player.new()
-	player.position = Vector2(640, 380)
-	player.game = self
-	add_child(player)
+	# Keep this empty since we now have everything in the .tscn scene file.
+	# You can use this for one-time initialization if needed.
 	hud.show_message("Day 1\nGrow flowers, fill orders, pay rent.", 2.5)
 
 func _zone(pos: Vector2, size: Vector2, col: Color) -> void:
-	var r := ColorRect.new()
-	r.position = pos
-	r.size = size
-	r.color = col
-	r.z_index = -9
-	add_child(r)
+	# No longer needed as we use ColorRects in the scene.
+	pass
 
 func _process(delta: float) -> void:
 	if game_over:
@@ -170,7 +126,7 @@ func _spawn_customer() -> void:
 	c.exit_x = CUSTOMER_EXIT_X
 	c.order = _random_order()
 	if day == 1:
-		c.patience = 0.0  # infinite on day 1 — no patience bar, never leaves angry
+		c.patience = 0.0
 	else:
 		var off: float = (day - 2) * PATIENCE_STEP
 		var low: float = max(PATIENCE_FLOOR, PATIENCE_LOW - off)
@@ -182,7 +138,6 @@ func _spawn_customer() -> void:
 
 func _random_order() -> Array:
 	var size := randi_range(2, 4)
-	# Bigger orders later
 	if day >= 4 and randf() < 0.4:
 		size = randi_range(3, 5)
 	var order: Array = []
@@ -200,7 +155,6 @@ func add_money(amount: int) -> void:
 
 func _end_day() -> void:
 	day_active = false
-	# Clear waiting customers (the day ended).
 	for c in customers.duplicate():
 		remove_customer(c)
 	if money >= rent:

@@ -22,73 +22,65 @@ var day_panel_label: Label
 
 func _ready() -> void:
 	layer = 10
-	# Top status bar
-	var top_bg := ColorRect.new()
-	top_bg.size = Vector2(1280, 40)
-	top_bg.color = Color(0, 0, 0, 0.55)
-	add_child(top_bg)
-	money_label = _mk("$0", Vector2(20, 8), 20)
-	add_child(money_label)
-	day_label = _mk("Day 1", Vector2(200, 8), 20)
-	add_child(day_label)
-	time_label = _mk("5:00", Vector2(360, 8), 20)
-	add_child(time_label)
-	rent_label = _mk("Rent: $40", Vector2(520, 8), 20)
-	add_child(rent_label)
-	# Bottom bar — seed pouch (left), holding (center), watering can (right).
-	var bot_bg := ColorRect.new()
-	bot_bg.size = Vector2(1280, 70)
-	bot_bg.position = Vector2(0, 650)
-	bot_bg.color = Color(0, 0, 0, 0.55)
-	add_child(bot_bg)
-	# ── Seed pouch (bottom-left) ─────────────────────────────────────
-	add_child(_mk("Seeds  (1/2/3 plant by type, F LIFO)", Vector2(20, 658), 14))
-	var pouch_bg := ColorRect.new()
-	pouch_bg.size = Vector2(SEED_SLOT_WIDTH * 10 + 8, 22)
-	pouch_bg.position = Vector2(20, 680)
-	pouch_bg.color = Color(0, 0, 0, 0.45)
-	add_child(pouch_bg)
-	seed_root = Node2D.new()
-	seed_root.position = Vector2(20, 680)
-	add_child(seed_root)
-	for i in 10:
-		var slot_bg := ColorRect.new()
-		slot_bg.size = Vector2(SEED_SLOT_WIDTH - 4, 18)
-		slot_bg.position = Vector2(4 + i * SEED_SLOT_WIDTH, 2)
-		slot_bg.color = Color(1, 1, 1, 0.08)
-		seed_root.add_child(slot_bg)
-		var dot := Interactable.make_circle(SEED_DOT_RADIUS, Color.WHITE, 16)
-		dot.position = Vector2(4 + i * SEED_SLOT_WIDTH + (SEED_SLOT_WIDTH - 4) / 2, 11)
-		dot.visible = false
-		seed_root.add_child(dot)
-		seed_dots.append(dot)
-	# ── Holding label (center) ───────────────────────────────────────
-	holding_label = _mk("Holding: nothing", Vector2(240, 658), 14)
-	holding_label.size = Vector2(720, 50)
-	holding_label.autowrap_mode = TextServer.AUTOWRAP_OFF
-	add_child(holding_label)
-	# ── Watering can (bottom-right) ──────────────────────────────────
-	add_child(_mk("Watering can", Vector2(1060, 658), 14))
-	var wbg := ColorRect.new()
-	wbg.size = Vector2(200, 16)
-	wbg.position = Vector2(1060, 682)
-	wbg.color = Color(0, 0, 0, 0.5)
-	add_child(wbg)
-	water_bar = ColorRect.new()
-	water_bar.size = Vector2(200, 16)
-	water_bar.position = Vector2(1060, 682)
-	water_bar.color = Color(0.30, 0.70, 1.00)
-	add_child(water_bar)
-	water_text = _mk("0 / 0", Vector2(1060, 681), 12)
-	water_text.size = Vector2(200, 18)
-	water_text.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	add_child(water_text)
-	# ── Floating action hint above the bottom bar ────────────────────
-	hint_label = _mk("", Vector2(0, 614), 20)
-	hint_label.size = Vector2(1280, 30)
-	hint_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	hint_label.add_theme_color_override("font_color", Color(1, 1, 0.6))
-	add_child(hint_label)
+	if not _bind_existing_nodes():
+		push_error("HUD '%s' is missing required UI children in the scene." % name)
+		set_process(false)
+
+func _bind_existing_nodes() -> bool:
+	seed_dots.clear()
+	money_label = null
+	day_label = null
+	time_label = null
+	rent_label = null
+	water_bar = null
+	water_text = null
+	seed_root = null
+	holding_label = null
+	hint_label = null
+
+	for child in get_children():
+		if child is Label:
+			var lbl := child as Label
+			if lbl.text.begins_with("$"):
+				money_label = lbl
+			elif lbl.text.begins_with("Day"):
+				day_label = lbl
+			elif lbl.text.begins_with("Rent"):
+				rent_label = lbl
+			elif lbl.text == "Watering can":
+				pass
+			elif lbl.text.find("/") != -1 and lbl.position == Vector2(1060, 681):
+				water_text = lbl
+			elif lbl.text.begins_with("Holding"):
+				holding_label = lbl
+			elif lbl.position == Vector2(0, 614):
+				hint_label = lbl
+			elif lbl.position == Vector2(360, 8):
+				time_label = lbl
+		elif child is ColorRect:
+			var rect := child as ColorRect
+			if rect.position == Vector2(1060, 682) and rect.size == Vector2(200, 16) and rect.color.b > 0.9:
+				water_bar = rect
+		elif child is Node2D:
+			var n2 := child as Node2D
+			if n2.position == Vector2(20, 680):
+				seed_root = n2
+
+	if seed_root:
+		for c in seed_root.get_children():
+			if c is Polygon2D:
+				seed_dots.append(c)
+
+	return money_label != null \
+		and day_label != null \
+		and time_label != null \
+		and rent_label != null \
+		and water_bar != null \
+		and water_text != null \
+		and seed_root != null \
+		and holding_label != null \
+		and hint_label != null \
+		and seed_dots.size() == 10
 
 func _mk(txt: String, pos: Vector2, sz: int) -> Label:
 	var l := Label.new()
@@ -100,6 +92,8 @@ func _mk(txt: String, pos: Vector2, sz: int) -> Label:
 
 func _process(_delta: float) -> void:
 	if game == null:
+		return
+	if money_label == null or day_label == null or time_label == null or rent_label == null or water_bar == null or water_text == null or holding_label == null or hint_label == null or seed_dots.size() < 10:
 		return
 	money_label.text = "$%d" % game.money
 	day_label.text = "Day %d" % game.day
