@@ -25,6 +25,32 @@ func _ready() -> void:
 	add_child(area)
 	area.set_meta("owner_interactable", self)
 
+# Adds a non-moving collision body so the player can't walk through this
+# station. The body is on layer 1 (Player has collision_mask = 1).
+func add_solid_rect(size: Vector2, offset: Vector2 = Vector2.ZERO) -> void:
+	var body := StaticBody2D.new()
+	body.collision_layer = 1
+	body.collision_mask = 0
+	var shape := CollisionShape2D.new()
+	var rect := RectangleShape2D.new()
+	rect.size = size
+	shape.shape = rect
+	shape.position = offset
+	body.add_child(shape)
+	add_child(body)
+
+func add_solid_circle(r: float, offset: Vector2 = Vector2.ZERO) -> void:
+	var body := StaticBody2D.new()
+	body.collision_layer = 1
+	body.collision_mask = 0
+	var shape := CollisionShape2D.new()
+	var circ := CircleShape2D.new()
+	circ.radius = r
+	shape.shape = circ
+	shape.position = offset
+	body.add_child(shape)
+	add_child(body)
+
 func interact(_player) -> void:
 	pass
 

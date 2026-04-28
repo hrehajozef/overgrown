@@ -8,6 +8,7 @@ const WALK_SPEED := 110.0
 
 var spot_index: int = 0
 var spot_position: Vector2 = Vector2.ZERO
+var exit_x: float = -120.0      # x to walk to once leaving (sign comes from spawn side)
 var order: Array = []           # sorted ints
 var patience: float = 0.0       # 0 = infinite
 var patience_left: float = 0.0
@@ -63,9 +64,12 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	if leaving:
-		position.x -= WALK_SPEED * delta
+		var dir: float = sign(exit_x - position.x)
+		if dir == 0.0:
+			dir = 1.0
+		position.x += dir * WALK_SPEED * delta
 		modulate.a = max(0.0, modulate.a - delta * 0.6)
-		if position.x < -120:
+		if (dir > 0.0 and position.x > exit_x) or (dir < 0.0 and position.x < exit_x):
 			if game:
 				game.remove_customer(self)
 		return

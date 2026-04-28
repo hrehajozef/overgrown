@@ -2,8 +2,9 @@ class_name WaterTap
 extends Interactable
 
 func _ready() -> void:
-	radius = 44.0
+	radius = 48.0
 	super._ready()
+	add_solid_rect(Vector2(62, 44), Vector2(0, -2))
 	add_child(make_rect(Vector2(70, 50), Color(0.62, 0.62, 0.66), Vector2(-35, -25)))
 	add_child(make_rect(Vector2(20, 30), Color(0.50, 0.50, 0.55), Vector2(-10, -55)))
 	add_child(make_rect(Vector2(40, 8), Color(0.40, 0.40, 0.45), Vector2(-20, -28)))

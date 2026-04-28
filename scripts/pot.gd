@@ -26,8 +26,10 @@ var water_bar: ColorRect
 var label_node: Label
 
 func _ready() -> void:
-	radius = 34.0
+	radius = 36.0
 	super._ready()
+	# Solid core — player can walk up close (interact zone is wider than this).
+	add_solid_circle(22.0, Vector2(0, 0))
 	pot_visual = make_rect(Vector2(56, 36), Color(0.45, 0.25, 0.15), Vector2(-28, -10))
 	add_child(pot_visual)
 	soil_visual = make_rect(Vector2(50, 8), Color(0.30, 0.18, 0.10), Vector2(-25, -14))
@@ -136,9 +138,8 @@ func interact(player) -> void:
 			if player.has_seeds():
 				_plant(player.pop_seed())
 		State.BLOOMED:
-			if not player.has_cut_flower():
-				player.pick_up_cut_flower(flower_type)
-				_reset()
+			player.pick_up_cut_flower(flower_type)
+			_reset()
 		State.DEAD:
 			_reset()
 		_:
@@ -192,9 +193,9 @@ func get_hint(player) -> String:
 				return "[Hold F] Water"
 			return ""
 		State.BLOOMED:
-			if not player.has_cut_flower():
-				return "[Space] Cut flower"
-			return "Hands full"
+			if player.has_cut_flower():
+				return "[Space] Cut flower (carrying %d)" % player.cut_flower_count()
+			return "[Space] Cut flower"
 		State.DEAD:
 			return "[Space] Clean pot"
 	return ""

@@ -35,37 +35,21 @@ func _ready() -> void:
 	add_child(time_label)
 	rent_label = _mk("Rent: $40", Vector2(520, 8), 20)
 	add_child(rent_label)
-	# Bottom bar — watering can + seed pouch + holding + controls
+	# Bottom bar — seed pouch (left), holding (center), watering can (right).
 	var bot_bg := ColorRect.new()
 	bot_bg.size = Vector2(1280, 70)
 	bot_bg.position = Vector2(0, 650)
 	bot_bg.color = Color(0, 0, 0, 0.55)
 	add_child(bot_bg)
-	# Watering can
-	add_child(_mk("Watering can", Vector2(20, 658), 14))
-	var wbg := ColorRect.new()
-	wbg.size = Vector2(200, 16)
-	wbg.position = Vector2(20, 682)
-	wbg.color = Color(0, 0, 0, 0.5)
-	add_child(wbg)
-	water_bar = ColorRect.new()
-	water_bar.size = Vector2(200, 16)
-	water_bar.position = Vector2(20, 682)
-	water_bar.color = Color(0.30, 0.70, 1.00)
-	add_child(water_bar)
-	water_text = _mk("0 / 0", Vector2(120, 681), 12)
-	water_text.size = Vector2(80, 18)
-	water_text.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	add_child(water_text)
-	# Seed pouch
-	add_child(_mk("Seeds (1/2/3 pick by type, F LIFO)", Vector2(240, 658), 14))
+	# ── Seed pouch (bottom-left) ─────────────────────────────────────
+	add_child(_mk("Seeds  (1/2/3 plant by type, F LIFO)", Vector2(20, 658), 14))
 	var pouch_bg := ColorRect.new()
 	pouch_bg.size = Vector2(SEED_SLOT_WIDTH * 10 + 8, 22)
-	pouch_bg.position = Vector2(240, 680)
+	pouch_bg.position = Vector2(20, 680)
 	pouch_bg.color = Color(0, 0, 0, 0.45)
 	add_child(pouch_bg)
 	seed_root = Node2D.new()
-	seed_root.position = Vector2(240, 680)
+	seed_root.position = Vector2(20, 680)
 	add_child(seed_root)
 	for i in 10:
 		var slot_bg := ColorRect.new()
@@ -78,12 +62,28 @@ func _ready() -> void:
 		dot.visible = false
 		seed_root.add_child(dot)
 		seed_dots.append(dot)
-	# Holding label (cut flower)
-	holding_label = _mk("Holding: nothing", Vector2(450, 682), 16)
+	# ── Holding label (center) ───────────────────────────────────────
+	holding_label = _mk("Holding: nothing", Vector2(240, 658), 14)
+	holding_label.size = Vector2(720, 50)
+	holding_label.autowrap_mode = TextServer.AUTOWRAP_OFF
 	add_child(holding_label)
-	# Controls hint
-	add_child(_mk("WASD/Arrows: move   Space: interact   F: water/refill/plant top", Vector2(640, 682), 12))
-	# Floating action hint above bottom bar
+	# ── Watering can (bottom-right) ──────────────────────────────────
+	add_child(_mk("Watering can", Vector2(1060, 658), 14))
+	var wbg := ColorRect.new()
+	wbg.size = Vector2(200, 16)
+	wbg.position = Vector2(1060, 682)
+	wbg.color = Color(0, 0, 0, 0.5)
+	add_child(wbg)
+	water_bar = ColorRect.new()
+	water_bar.size = Vector2(200, 16)
+	water_bar.position = Vector2(1060, 682)
+	water_bar.color = Color(0.30, 0.70, 1.00)
+	add_child(water_bar)
+	water_text = _mk("0 / 0", Vector2(1060, 681), 12)
+	water_text.size = Vector2(200, 18)
+	water_text.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	add_child(water_text)
+	# ── Floating action hint above the bottom bar ────────────────────
 	hint_label = _mk("", Vector2(0, 614), 20)
 	hint_label.size = Vector2(1280, 30)
 	hint_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -123,9 +123,23 @@ func _process(_delta: float) -> void:
 			dot.visible = true
 		else:
 			dot.visible = false
-	# Holding (only the cut flower — seeds are in the pouch row)
+	# Holding (count + breakdown by type)
 	if p.has_cut_flower():
-		holding_label.text = "Holding: %s flower" % FlowerDB.TYPE_NAMES[p.holding_type]
+		var counts: Array = p.cut_flower_counts_by_type()
+		var parts: Array = []
+		for i in FlowerDB.TYPE_COUNT:
+			if counts[i] > 0:
+				parts.append("%s×%d" % [FlowerDB.TYPE_NAMES[i], counts[i]])
+		var breakdown := ""
+		for i in parts.size():
+			if i > 0:
+				breakdown += ", "
+			breakdown += parts[i]
+		holding_label.text = "Holding: %d cut flower%s\n%s" % [
+			p.cut_flower_count(),
+			"" if p.cut_flower_count() == 1 else "s",
+			breakdown,
+		]
 	else:
 		holding_label.text = "Holding: nothing"
 	if p.ui_open:

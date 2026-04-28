@@ -16,70 +16,107 @@ var price_label: Label
 
 func _ready() -> void:
 	layer = 100
+	# Fully opaque background so the bustling shop doesn't peek through.
 	var dim := ColorRect.new()
 	dim.size = Vector2(1280, 720)
-	dim.color = Color(0, 0, 0, 0.55)
+	dim.color = Color(0.10, 0.08, 0.14)
 	add_child(dim)
+	# Solid panel
 	var panel := Panel.new()
-	panel.size = Vector2(560, 380)
-	panel.position = Vector2(360, 170)
+	panel.size = Vector2(620, 420)
+	panel.position = Vector2(330, 150)
+	var sb := StyleBoxFlat.new()
+	sb.bg_color = Color(0.20, 0.18, 0.26)
+	sb.border_color = Color(0.55, 0.50, 0.65)
+	sb.border_width_left = 2
+	sb.border_width_right = 2
+	sb.border_width_top = 2
+	sb.border_width_bottom = 2
+	sb.corner_radius_top_left = 8
+	sb.corner_radius_top_right = 8
+	sb.corner_radius_bottom_left = 8
+	sb.corner_radius_bottom_right = 8
+	panel.add_theme_stylebox_override("panel", sb)
 	add_child(panel)
 	var title := Label.new()
 	title.text = "Compose bouquet"
-	title.position = Vector2(20, 12)
-	title.add_theme_font_size_override("font_size", 22)
+	title.position = Vector2(20, 14)
+	title.add_theme_font_size_override("font_size", 24)
+	title.add_theme_color_override("font_color", Color(1, 1, 1))
 	panel.add_child(title)
 	var inv_lbl := Label.new()
-	inv_lbl.text = "Inventory (click to add)"
-	inv_lbl.position = Vector2(20, 56)
+	inv_lbl.text = "Inventory — press 1 / 2 / 3 or click"
+	inv_lbl.position = Vector2(20, 60)
+	inv_lbl.add_theme_color_override("font_color", Color(0.9, 0.9, 0.95))
 	panel.add_child(inv_lbl)
 	for i in FlowerDB.TYPE_COUNT:
 		var btn := Button.new()
-		btn.position = Vector2(20 + i * 175, 84)
-		btn.size = Vector2(165, 56)
+		btn.position = Vector2(20 + i * 195, 90)
+		btn.size = Vector2(185, 70)
 		btn.add_theme_font_size_override("font_size", 16)
+		# Tint the button slightly toward the flower's color so it's
+		# visually obvious which key plants which type.
+		var bsb := StyleBoxFlat.new()
+		bsb.bg_color = FlowerDB.TYPE_COLORS[i].lerp(Color(0.20, 0.18, 0.26), 0.55)
+		bsb.border_color = FlowerDB.TYPE_COLORS[i]
+		bsb.border_width_left = 3
+		bsb.border_width_right = 3
+		bsb.border_width_top = 3
+		bsb.border_width_bottom = 3
+		bsb.corner_radius_top_left = 6
+		bsb.corner_radius_top_right = 6
+		bsb.corner_radius_bottom_left = 6
+		bsb.corner_radius_bottom_right = 6
+		btn.add_theme_stylebox_override("normal", bsb)
+		var bsb_hover := bsb.duplicate()
+		bsb_hover.bg_color = bsb.bg_color.lightened(0.15)
+		btn.add_theme_stylebox_override("hover", bsb_hover)
 		btn.pressed.connect(_on_add.bind(i))
 		panel.add_child(btn)
 		inv_buttons.append(btn)
 	var bouquet_title := Label.new()
 	bouquet_title.text = "Bouquet:"
-	bouquet_title.position = Vector2(20, 162)
+	bouquet_title.position = Vector2(20, 180)
+	bouquet_title.add_theme_color_override("font_color", Color.WHITE)
 	panel.add_child(bouquet_title)
 	bouquet_label = Label.new()
-	bouquet_label.position = Vector2(20, 192)
-	bouquet_label.size = Vector2(520, 40)
-	bouquet_label.add_theme_font_size_override("font_size", 20)
+	bouquet_label.position = Vector2(20, 210)
+	bouquet_label.size = Vector2(580, 40)
+	bouquet_label.add_theme_font_size_override("font_size", 22)
+	bouquet_label.add_theme_color_override("font_color", Color.WHITE)
 	panel.add_child(bouquet_label)
 	price_label = Label.new()
-	price_label.position = Vector2(20, 232)
-	price_label.size = Vector2(520, 24)
+	price_label.position = Vector2(20, 252)
+	price_label.size = Vector2(580, 24)
 	price_label.add_theme_font_size_override("font_size", 14)
+	price_label.add_theme_color_override("font_color", Color(0.85, 0.95, 0.6))
 	panel.add_child(price_label)
 	var rm_btn := Button.new()
-	rm_btn.position = Vector2(20, 276)
-	rm_btn.size = Vector2(140, 44)
-	rm_btn.text = "Remove last (Backspace)"
+	rm_btn.position = Vector2(20, 296)
+	rm_btn.size = Vector2(160, 44)
+	rm_btn.text = "Remove last  (Backspace)"
 	rm_btn.add_theme_font_size_override("font_size", 11)
 	rm_btn.pressed.connect(_on_remove)
 	panel.add_child(rm_btn)
 	var cancel_btn := Button.new()
-	cancel_btn.position = Vector2(180, 276)
+	cancel_btn.position = Vector2(200, 296)
 	cancel_btn.size = Vector2(140, 44)
-	cancel_btn.text = "Cancel (Esc)"
+	cancel_btn.text = "Cancel  (Esc)"
 	cancel_btn.add_theme_font_size_override("font_size", 12)
 	cancel_btn.pressed.connect(_on_cancel)
 	panel.add_child(cancel_btn)
 	var confirm_btn := Button.new()
-	confirm_btn.position = Vector2(340, 276)
-	confirm_btn.size = Vector2(200, 44)
-	confirm_btn.text = "Make bouquet (Enter)"
-	confirm_btn.add_theme_font_size_override("font_size", 13)
+	confirm_btn.position = Vector2(360, 296)
+	confirm_btn.size = Vector2(240, 44)
+	confirm_btn.text = "Make bouquet  (Enter)"
+	confirm_btn.add_theme_font_size_override("font_size", 14)
 	confirm_btn.pressed.connect(_on_confirm)
 	panel.add_child(confirm_btn)
 	var hint := Label.new()
 	hint.text = "Keys: 1 / 2 / 3 add  •  Backspace remove  •  Enter confirm  •  Esc cancel"
-	hint.position = Vector2(20, 336)
-	hint.add_theme_font_size_override("font_size", 12)
+	hint.position = Vector2(20, 364)
+	hint.add_theme_font_size_override("font_size", 13)
+	hint.add_theme_color_override("font_color", Color(0.85, 0.85, 0.95))
 	panel.add_child(hint)
 	_refresh()
 
@@ -87,7 +124,7 @@ func _refresh() -> void:
 	for i in FlowerDB.TYPE_COUNT:
 		var avail: int = workbench.inventory[i] - current_bouquet.count(i)
 		var btn: Button = inv_buttons[i]
-		btn.text = "%s\n%d available  (used %d)" % [FlowerDB.TYPE_NAMES[i], avail, current_bouquet.count(i)]
+		btn.text = "[%d]  %s\n%d available  (used %d)" % [i + 1, FlowerDB.TYPE_NAMES[i], avail, current_bouquet.count(i)]
 		btn.disabled = avail <= 0 or current_bouquet.size() >= MAX_BOUQUET
 	if current_bouquet.is_empty():
 		bouquet_label.text = "(empty — pick at least one flower)"

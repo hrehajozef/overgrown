@@ -4,8 +4,9 @@ extends Interactable
 @export var flower_type: int = 0
 
 func _ready() -> void:
-	radius = 36.0
+	radius = 40.0
 	super._ready()
+	add_solid_rect(Vector2(56, 40), Vector2(0, 0))
 	add_child(make_rect(Vector2(64, 48), Color(0.55, 0.40, 0.25), Vector2(-32, -24)))
 	add_child(make_rect(Vector2(48, 32), FlowerDB.TYPE_COLORS[flower_type] * 0.8, Vector2(-24, -16)))
 	add_child(make_label(FlowerDB.TYPE_NAMES[flower_type] + " seeds", Vector2(-50, -44), 100))

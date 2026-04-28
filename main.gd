@@ -9,22 +9,27 @@ extends Node2D
 # boxes and the water tap on the right wall.
 
 const POT_POSITIONS := [
-	Vector2(610, 200), Vector2(710, 200), Vector2(810, 200),
-	Vector2(610, 360), Vector2(710, 360), Vector2(810, 360),
-	Vector2(610, 520), Vector2(710, 520), Vector2(810, 520),
+	Vector2(320, 110), Vector2(540, 110), Vector2(760, 110), Vector2(980, 110),
 ]
 const CUSTOMER_SPOTS := [
-	Vector2(80, 230),
-	Vector2(80, 360),
-	Vector2(80, 490),
+	Vector2(900, 605),
+	Vector2(1030, 605),
+	Vector2(1160, 605),
 ]
+const CUSTOMER_SPAWN_X := 1400.0
+const CUSTOMER_EXIT_X := 1400.0
 
 const DAY_LENGTH := 300.0          # 5 minutes
 const STARTING_MONEY := 30
 const STARTING_RENT := 40
 const RENT_INCREASE_PER_DAY := 20
-const DEFAULT_PATIENCE := 0.0      # 0 = infinite waiting; >0 = seconds before they leave
-const PATIENCE_DROP_PER_DAY := 0.0 # only meaningful when DEFAULT_PATIENCE > 0
+
+# Patience schedule: day 1 is infinite, day 2 starts at [PATIENCE_LOW, PATIENCE_HIGH],
+# both bounds drop by PATIENCE_STEP per following day, clamped to PATIENCE_FLOOR.
+const PATIENCE_LOW := 100.0
+const PATIENCE_HIGH := 130.0
+const PATIENCE_STEP := 5.0
+const PATIENCE_FLOOR := 15.0
 
 var money: int = STARTING_MONEY
 var day: int = 1
@@ -75,42 +80,44 @@ func _build_world() -> void:
 	bg.z_index = -10
 	add_child(bg)
 	# Decorative zone tiles
-	_zone(Vector2(40, 100), Vector2(160, 540), Color(0.86, 0.82, 0.70))   # customer queue area
-	_zone(Vector2(240, 280), Vector2(180, 220), Color(0.85, 0.74, 0.55))  # workbench area
-	_zone(Vector2(550, 140), Vector2(320, 460), Color(0.50, 0.66, 0.40))  # garden patch
-	_zone(Vector2(990, 130), Vector2(180, 460), Color(0.78, 0.74, 0.62))  # supply wall
-	# Counter
-	counter = Counter.new()
-	counter.position = Vector2(170, 360)
-	counter.game = self
-	add_child(counter)
-	# Workbench
-	workbench = Workbench.new()
-	workbench.position = Vector2(350, 380)
-	workbench.game = self
-	add_child(workbench)
-	# Pots
+	# Floor zones — soft tan rugs around each work area, matching the layout sketch.
+	_zone(Vector2(20, 140), Vector2(140, 480), Color(0.86, 0.82, 0.70))    # supply column (seeds)
+	_zone(Vector2(1100, 120), Vector2(160, 200), Color(0.86, 0.82, 0.70))  # tap nook
+	_zone(Vector2(180, 540), Vector2(380, 180), Color(0.85, 0.74, 0.55))   # workbench area
+	_zone(Vector2(720, 540), Vector2(560, 180), Color(0.85, 0.74, 0.55))   # counter + customers
+	_zone(Vector2(220, 50), Vector2(880, 130), Color(0.50, 0.66, 0.40))    # garden patch (top)
+	# Pots — 4 in a row at the top
 	for p in POT_POSITIONS:
 		var pot := Pot.new()
 		pot.position = p
 		add_child(pot)
-	# Seed boxes (right wall, top half)
+	# Seed boxes — vertical column on the left wall (Red top, Yellow middle, Blue bottom)
 	for i in FlowerDB.TYPE_COUNT:
 		var sb := SeedBox.new()
 		sb.flower_type = i
-		sb.position = Vector2(1080, 180 + i * 80)
+		sb.position = Vector2(90, 220 + i * 180)
 		add_child(sb)
-	# Water tap (right wall, lower)
+	# Water tap — top right
 	var tap := WaterTap.new()
-	tap.position = Vector2(1080, 540)
+	tap.position = Vector2(1180, 220)
 	add_child(tap)
+	# Workbench — bottom-left, wide horizontal
+	workbench = Workbench.new()
+	workbench.position = Vector2(370, 620)
+	workbench.game = self
+	add_child(workbench)
+	# Counter — small vertical pillar at bottom-center, customers queue to its right
+	counter = Counter.new()
+	counter.position = Vector2(760, 605)
+	counter.game = self
+	add_child(counter)
 	# HUD
 	hud = HUD.new()
 	hud.game = self
 	add_child(hud)
 	# Player
 	player = Player.new()
-	player.position = Vector2(490, 620)
+	player.position = Vector2(640, 380)
 	player.game = self
 	add_child(player)
 	hud.show_message("Day 1\nGrow flowers, fill orders, pay rent.", 2.5)
@@ -159,12 +166,16 @@ func _spawn_customer() -> void:
 	var c := Customer.new()
 	c.spot_index = spot_idx
 	c.spot_position = CUSTOMER_SPOTS[spot_idx]
-	c.position = Vector2(-60, CUSTOMER_SPOTS[spot_idx].y)
+	c.position = Vector2(CUSTOMER_SPAWN_X, CUSTOMER_SPOTS[spot_idx].y)
+	c.exit_x = CUSTOMER_EXIT_X
 	c.order = _random_order()
-	if DEFAULT_PATIENCE <= 0.0:
-		c.patience = 0.0  # infinite — no patience bar, never leaves angry
+	if day == 1:
+		c.patience = 0.0  # infinite on day 1 — no patience bar, never leaves angry
 	else:
-		c.patience = max(20.0, DEFAULT_PATIENCE - (day - 1) * PATIENCE_DROP_PER_DAY)
+		var off: float = (day - 2) * PATIENCE_STEP
+		var low: float = max(PATIENCE_FLOOR, PATIENCE_LOW - off)
+		var high: float = max(low + 1.0, PATIENCE_HIGH - off)
+		c.patience = randf_range(low, high)
 	c.game = self
 	customers.append(c)
 	add_child(c)

@@ -13,12 +13,12 @@ const TYPE_COLORS := [
 	Color(0.30, 0.50, 0.95),
 ]
 # Seconds from planting (with continuous water) to bloom
-const GROW_TIME := [15.0, 12.0, 10.0]
+const GROW_TIME := [13.0, 12.0, 14.0]
 # Water level decreases at this many %/sec while growing
-const WATER_DRAIN := [4.0, 5.0, 6.0]
+const WATER_DRAIN := [5.0, 4.0, 6.0]
 # Seconds at 0% water before plant dies
-const DRY_TIME := [12.0, 10.0, 8.0]
+const DRY_TIME := [20.0, 25.0, 17.0]
 # Seconds bloomed flower lasts in pot before wilting
 const BLOSSOM_DECAY := [25.0, 22.0, 20.0]
 # Sale price contributed per flower in a bouquet
-const PRICE := [10, 7, 5]
+const PRICE := [4, 3, 5]
