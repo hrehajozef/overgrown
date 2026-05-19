@@ -12,8 +12,8 @@ const CARD_PAD := 14.0
 const CARD_TOP := 92.0
 const DOT_R := 13.0
 
-const PANEL_BG := Color(0.115, 0.115, 0.150, 0.98)
-const PANEL_BORDER := Color(0.68, 0.54, 0.32, 0.55)
+const PANEL_BG := Color(0.115, 0.115, 0.150, 0.9)
+const PANEL_BORDER := Color(1.0 , 1.0, 1.0, 0.7)
 const TEXT_PRIMARY := Color(0.97, 0.95, 0.90)
 const TEXT_MUTED := Color(0.68, 0.68, 0.74)
 const TEXT_HEADER := Color(0.97, 0.86, 0.62)
@@ -36,13 +36,7 @@ func _ready() -> void:
 	layer = 100
 
 	var panel_x := (1280.0 - PANEL_W) / 2.0
-	var panel_y := (720.0 - PANEL_H) / 2.0 - 20.0
-
-	var shadow := ColorRect.new()
-	shadow.size = Vector2(PANEL_W + 22, PANEL_H + 28)
-	shadow.position = Vector2(panel_x - 11, panel_y - 6)
-	shadow.color = Color(0, 0, 0, 0.32)
-	add_child(shadow)
+	var panel_y := (720.0 - PANEL_H) / 2.0 - 75.0
 
 	panel = Panel.new()
 	panel.size = Vector2(PANEL_W, PANEL_H)
@@ -83,9 +77,10 @@ func _ready() -> void:
 	panel.add_child(divider2)
 
 	var btn_y := bouquet_y + 124
-	_make_button("Remove last  [Backspace]", Vector2(28, btn_y), Vector2(170, 46), ACCENT_REMOVE, _on_remove)
-	_make_button("Cancel  [Esc]", Vector2(208, btn_y), Vector2(140, 46), ACCENT_CANCEL, _on_cancel)
-	_make_button("Make bouquet  [Enter]", Vector2(358, btn_y), Vector2(PANEL_W - 386, 46), ACCENT_CONFIRM, _on_confirm)
+	var btn_x := 28
+	_make_button("Remove last  [Backspace]", Vector2(btn_x, btn_y), Vector2(btn_x+200, 46), ACCENT_REMOVE, _on_remove)
+	_make_button("Cancel  [Esc]", Vector2(btn_x+240, btn_y), Vector2(btn_x+120, 46), ACCENT_CANCEL, _on_cancel)
+	_make_button("Make bouquet  [Enter]", Vector2(btn_x+400, btn_y), Vector2(btn_x+198, 46), ACCENT_CONFIRM, _on_confirm)
 
 	_refresh()
 

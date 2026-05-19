@@ -17,6 +17,9 @@ const CAN_USE_RATE := 50.0 # %/sec into a pot
 const MAX_SEEDS := 10
 const BODY_RADIUS := 18.0
 const INTERACT_RADIUS := 40.0
+const WATERING_CAN_TEXTURE := preload("res://assets/watering_can.png")
+const WATERING_CAN_OFFSET := Vector2(BODY_RADIUS, 4.0)
+const WATERING_CAN_TARGET_HEIGHT := 25.0
 
 @export var player_id: int = 0
 @export var input_prefix: String = ""
@@ -32,6 +35,7 @@ var interact_area: Area2D
 var current_interactable: Interactable = null
 var held_icon: Polygon2D = null
 var held_count_label: Label = null
+var watering_can_sprite: Sprite2D = null
 
 func _ready() -> void:
 	collision_layer = 2
@@ -47,6 +51,7 @@ func _ready() -> void:
 	var hat := Interactable.make_circle(11.0, Color(0.85, 0.65, 0.30))
 	hat.position = Vector2(0, -12)
 	add_child(hat)
+	_create_watering_can_sprite()
 
 	# Detector area for nearby Interactables.
 	interact_area = Area2D.new()
@@ -79,6 +84,7 @@ func _physics_process(_delta: float) -> void:
 
 func _process(delta: float) -> void:
 	_update_current_interactable()
+	_update_watering_can_visual(false)
 	if ui_open:
 		return
 	if current_interactable == null:
@@ -88,6 +94,7 @@ func _process(delta: float) -> void:
 	if Input.is_action_just_pressed(_a("action2")):
 		current_interactable.action2_press(self )
 	if Input.is_action_pressed(_a("action2")):
+		_update_watering_can_visual(_should_show_watering_can())
 		current_interactable.continuous_action(self , delta)
 	if current_interactable is Pot:
 		var pot: Pot = current_interactable
@@ -113,6 +120,29 @@ func _update_current_interactable() -> void:
 			best_d = d
 			best = owner_obj
 	current_interactable = best
+
+func _create_watering_can_sprite() -> void:
+	watering_can_sprite = Sprite2D.new()
+	watering_can_sprite.texture = WATERING_CAN_TEXTURE
+	watering_can_sprite.position = WATERING_CAN_OFFSET
+	watering_can_sprite.visible = false
+	watering_can_sprite.z_index = z_index + 1
+	if WATERING_CAN_TEXTURE != null and WATERING_CAN_TEXTURE.get_height() > 0:
+		var scale_factor := WATERING_CAN_TARGET_HEIGHT / float(WATERING_CAN_TEXTURE.get_height())
+		watering_can_sprite.scale = Vector2.ONE * scale_factor
+	add_child(watering_can_sprite)
+
+func _should_show_watering_can() -> bool:
+	if current_interactable is Pot:
+		var pot: Pot = current_interactable
+		return pot.state == Pot.State.GROWING and pot.water_level < 100.0 and water > 0.0
+	if current_interactable is WaterTap:
+		return water < CAN_CAPACITY
+	return false
+
+func _update_watering_can_visual(visible: bool) -> void:
+	if watering_can_sprite != null:
+		watering_can_sprite.visible = visible
 
 # ── Cut flower stack (unlimited) ───────────────────────────────────────
 func has_cut_flower() -> bool:

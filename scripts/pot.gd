@@ -44,8 +44,15 @@ func _ready() -> void:
 		return
 	# Hide the plain scene Label — the bubble replaces it for status text.
 	label_node.visible = false
+	_configure_overlay_bars()
 	_create_bubble()
 	_refresh_visuals()
+
+func _configure_overlay_bars() -> void:
+	growth_bar.z_as_relative = false
+	growth_bar.z_index = 25
+	water_bar.z_as_relative = false
+	water_bar.z_index = 25
 
 func _create_bubble() -> void:
 	# Sits well above the flower so it doesn't cover the bloom/dead stub.
@@ -53,7 +60,8 @@ func _create_bubble() -> void:
 	bubble = Node2D.new()
 	bubble.position = Vector2(0, -66)
 	bubble.visible = false
-	bubble.z_index = 20
+	bubble.z_as_relative = false
+	bubble.z_index = 26
 	add_child(bubble)
 	var bg := ColorRect.new()
 	bg.size = Vector2(60, 16)
