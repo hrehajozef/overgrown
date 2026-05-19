@@ -2,9 +2,20 @@ class_name HUD
 extends CanvasLayer
 
 # Reads state from Main and the player(s) each frame.
+# Binds to existing nodes baked into main.tscn by name/position/size,
+# then re-styles them (opaque bars, centered top stats, hint inside the
+# bottom bar) so the .tscn can stay close to what the editor produces.
 
 const SEED_DOT_RADIUS := 7
 const SEED_SLOT_WIDTH := 18
+
+const TOP_BAR_HEIGHT := 40.0
+const BOTTOM_BAR_HEIGHT := 70.0
+const BOTTOM_BAR_Y := 650.0
+const VIEWPORT_WIDTH := 1280.0
+const VIEWPORT_HEIGHT := 720.0
+
+const BAR_COLOR := Color(0.16, 0.11, 0.08, 1.0)  # opaque dark brown
 
 var game
 var money_label: Label
@@ -17,6 +28,10 @@ var seed_root: Node2D
 var seed_dots: Array = []
 var holding_label: Label
 var hint_label: Label
+var top_bar: ColorRect
+var bottom_bar: ColorRect
+var watering_can_label: Label
+var seeds_label: Label
 var day_panel: Control
 var day_panel_label: Label
 
@@ -25,6 +40,11 @@ func _ready() -> void:
 	if not _bind_existing_nodes():
 		push_error("HUD '%s' is missing required UI children in the scene." % name)
 		set_process(false)
+		return
+	_restyle_bars()
+	_layout_top_bar()
+	_layout_bottom_bar()
+	_restrict_background()
 
 func _bind_existing_nodes() -> bool:
 	seed_dots.clear()
@@ -37,6 +57,10 @@ func _bind_existing_nodes() -> bool:
 	seed_root = null
 	holding_label = null
 	hint_label = null
+	top_bar = null
+	bottom_bar = null
+	watering_can_label = null
+	seeds_label = null
 
 	for child in get_children():
 		if child is Label:
@@ -48,7 +72,9 @@ func _bind_existing_nodes() -> bool:
 			elif lbl.text.begins_with("Rent"):
 				rent_label = lbl
 			elif lbl.text == "Watering can":
-				pass
+				watering_can_label = lbl
+			elif lbl.text.begins_with("Seeds"):
+				seeds_label = lbl
 			elif lbl.text.find("/") != -1 and lbl.position == Vector2(1060, 681):
 				water_text = lbl
 			elif lbl.text.begins_with("Holding"):
@@ -59,7 +85,11 @@ func _bind_existing_nodes() -> bool:
 				time_label = lbl
 		elif child is ColorRect:
 			var rect := child as ColorRect
-			if rect.position == Vector2(1060, 682) and rect.size == Vector2(200, 16) and rect.color.b > 0.9:
+			if rect.position == Vector2(0, 0) and rect.size == Vector2(VIEWPORT_WIDTH, TOP_BAR_HEIGHT):
+				top_bar = rect
+			elif rect.position == Vector2(0, BOTTOM_BAR_Y) and rect.size == Vector2(VIEWPORT_WIDTH, BOTTOM_BAR_HEIGHT):
+				bottom_bar = rect
+			elif rect.position == Vector2(1060, 682) and rect.size == Vector2(200, 16) and rect.color.b > 0.9:
 				water_bar = rect
 		elif child is Node2D:
 			var n2 := child as Node2D
@@ -82,18 +112,68 @@ func _bind_existing_nodes() -> bool:
 		and hint_label != null \
 		and seed_dots.size() == 10
 
-func _mk(txt: String, pos: Vector2, sz: int) -> Label:
-	var l := Label.new()
-	l.text = txt
-	l.position = pos
-	l.add_theme_font_size_override("font_size", sz)
-	l.add_theme_color_override("font_color", Color.WHITE)
-	return l
+func _restyle_bars() -> void:
+	if top_bar:
+		top_bar.color = BAR_COLOR
+	if bottom_bar:
+		bottom_bar.color = BAR_COLOR
+
+# Center the four top-bar stats in equal quarters.
+func _layout_top_bar() -> void:
+	var quarter := VIEWPORT_WIDTH / 4.0
+	_center_label(money_label, 0.0, 6.0, quarter)
+	_center_label(day_label, quarter, 6.0, quarter)
+	_center_label(time_label, quarter * 2.0, 6.0, quarter)
+	_center_label(rent_label, quarter * 3.0, 6.0, quarter)
+
+func _center_label(lbl: Label, x: float, y: float, w: float) -> void:
+	if lbl == null:
+		return
+	lbl.position = Vector2(x, y)
+	lbl.size = Vector2(w, 28)
+	lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+
+# Keeps the seed pouch (left) and watering can (right) where the scene
+# places them, then re-arranges the middle column so the contextual hint
+# sits inside the bar (used to float above it).
+#   [Seeds + pouch] [Holding line]              [Watering can]
+#                   [    Hint line (big)   ]
+func _layout_bottom_bar() -> void:
+	if holding_label:
+		holding_label.position = Vector2(240, 655)
+		holding_label.size = Vector2(800, 20)
+		holding_label.autowrap_mode = TextServer.AUTOWRAP_OFF
+		holding_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		holding_label.add_theme_font_size_override("font_size", 13)
+		holding_label.add_theme_color_override("font_color", Color(0.92, 0.90, 0.85))
+	if hint_label:
+		hint_label.position = Vector2(240, 678)
+		hint_label.size = Vector2(800, 36)
+		hint_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		hint_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		hint_label.autowrap_mode = TextServer.AUTOWRAP_OFF
+		hint_label.add_theme_font_size_override("font_size", 18)
+		hint_label.add_theme_color_override("font_color", Color(1.00, 0.95, 0.55))
+
+# Shrink the green play-area Background so it visually doesn't extend
+# beneath the bars (they sit cleanly above/below the play zone).
+func _restrict_background() -> void:
+	var parent := get_parent()
+	if parent == null:
+		return
+	var bg := parent.get_node_or_null("Background")
+	if bg is ColorRect:
+		var rect := bg as ColorRect
+		rect.position = Vector2(0, TOP_BAR_HEIGHT)
+		rect.size = Vector2(VIEWPORT_WIDTH, BOTTOM_BAR_Y - TOP_BAR_HEIGHT)
 
 func _process(_delta: float) -> void:
 	if game == null:
 		return
-	if money_label == null or day_label == null or time_label == null or rent_label == null or water_bar == null or water_text == null or holding_label == null or hint_label == null or seed_dots.size() < 10:
+	if money_label == null or day_label == null or time_label == null or rent_label == null \
+			or water_bar == null or water_text == null or holding_label == null \
+			or hint_label == null or seed_dots.size() < 10:
 		return
 	money_label.text = "$%d" % game.money
 	day_label.text = "Day %d" % game.day
@@ -117,7 +197,7 @@ func _process(_delta: float) -> void:
 			dot.visible = true
 		else:
 			dot.visible = false
-	# Holding (count + breakdown by type)
+	# Holding — one tidy line: "Holding 3: Red×1, Yellow×2"
 	if p.has_cut_flower():
 		var counts: Array = p.cut_flower_counts_by_type()
 		var parts: Array = []
@@ -129,11 +209,7 @@ func _process(_delta: float) -> void:
 			if i > 0:
 				breakdown += ", "
 			breakdown += parts[i]
-		holding_label.text = "Holding: %d cut flower%s\n%s" % [
-			p.cut_flower_count(),
-			"" if p.cut_flower_count() == 1 else "s",
-			breakdown,
-		]
+		holding_label.text = "Holding %d: %s" % [p.cut_flower_count(), breakdown]
 	else:
 		holding_label.text = "Holding: nothing"
 	if p.ui_open:
@@ -145,7 +221,7 @@ func show_message(text: String, duration: float = 2.0) -> void:
 	if day_panel:
 		day_panel.queue_free()
 	day_panel = Control.new()
-	day_panel.size = Vector2(1280, 720)
+	day_panel.size = Vector2(VIEWPORT_WIDTH, VIEWPORT_HEIGHT)
 	day_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(day_panel)
 	var bg := ColorRect.new()
@@ -172,10 +248,10 @@ func _clear_message() -> void:
 
 func show_game_over(days_survived: int) -> void:
 	var panel := Control.new()
-	panel.size = Vector2(1280, 720)
+	panel.size = Vector2(VIEWPORT_WIDTH, VIEWPORT_HEIGHT)
 	add_child(panel)
 	var dim := ColorRect.new()
-	dim.size = Vector2(1280, 720)
+	dim.size = Vector2(VIEWPORT_WIDTH, VIEWPORT_HEIGHT)
 	dim.color = Color(0, 0, 0, 0.75)
 	panel.add_child(dim)
 	var title := Label.new()
@@ -183,7 +259,7 @@ func show_game_over(days_survived: int) -> void:
 	title.add_theme_font_size_override("font_size", 56)
 	title.add_theme_color_override("font_color", Color(1, 0.4, 0.4))
 	title.position = Vector2(0, 220)
-	title.size = Vector2(1280, 80)
+	title.size = Vector2(VIEWPORT_WIDTH, 80)
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	panel.add_child(title)
 	var sub := Label.new()
@@ -191,7 +267,7 @@ func show_game_over(days_survived: int) -> void:
 	sub.add_theme_font_size_override("font_size", 22)
 	sub.add_theme_color_override("font_color", Color.WHITE)
 	sub.position = Vector2(0, 320)
-	sub.size = Vector2(1280, 30)
+	sub.size = Vector2(VIEWPORT_WIDTH, 30)
 	sub.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	panel.add_child(sub)
 	var prompt := Label.new()
@@ -199,6 +275,6 @@ func show_game_over(days_survived: int) -> void:
 	prompt.add_theme_font_size_override("font_size", 18)
 	prompt.add_theme_color_override("font_color", Color(0.8, 0.8, 0.8))
 	prompt.position = Vector2(0, 380)
-	prompt.size = Vector2(1280, 30)
+	prompt.size = Vector2(VIEWPORT_WIDTH, 30)
 	prompt.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	panel.add_child(prompt)

@@ -43,6 +43,7 @@ func interact(player) -> void:
 		for t in stack:
 			inventory[t] += 1
 		_refresh_inventory_labels()
+		AudioManager.play_sfx("flower_workbench_place")
 	elif ui_open_for == null and _has_any():
 		_open_bouquet_ui(player)
 
@@ -62,7 +63,7 @@ func _has_any() -> bool:
 func _refresh_inventory_labels() -> void:
 	for i in FlowerDB.TYPE_COUNT:
 		var l: Label = inv_labels[i]
-		l.text = "%s\n%d" % [FlowerDB.TYPE_NAMES[i].substr(0, 1), inventory[i]]
+		l.text = "%s\n%d" % [FlowerDB.TYPE_NAMES[i], inventory[i]]
 
 func _open_bouquet_ui(player) -> void:
 	ui_open_for = player
@@ -73,6 +74,7 @@ func _open_bouquet_ui(player) -> void:
 	ui.player = player
 	ui.game = game
 	game.add_child(ui)
+	AudioManager.play_sfx("workbench_modal_pop")
 
 func close_ui() -> void:
 	if ui_open_for:

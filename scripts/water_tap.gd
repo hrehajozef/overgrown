@@ -15,7 +15,9 @@ func _has_baked_visuals() -> bool:
 	return false
 
 func continuous_action(player, delta: float) -> void:
-	player.add_water(Player.CAN_REFILL_RATE * delta)
+	if player.water < Player.CAN_CAPACITY:
+		player.add_water(Player.CAN_REFILL_RATE * delta)
+		AudioManager.tick_water()
 
 func get_hint(player) -> String:
 	if player.water < Player.CAN_CAPACITY:

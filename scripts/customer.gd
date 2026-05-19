@@ -80,6 +80,7 @@ func _process(delta: float) -> void:
 		if position.distance_to(spot_position) < 1.0:
 			at_spot = true
 			bubble_root.visible = true
+			AudioManager.play_sfx("customer_arrive")
 			if game and game.counter:
 				game.counter.customer_arrived()
 		return
@@ -101,6 +102,10 @@ func serve() -> void:
 	served = true
 	_leave(true)
 
-func _leave(_happy: bool) -> void:
+func _leave(happy: bool) -> void:
 	leaving = true
 	bubble_root.visible = false
+	if happy:
+		AudioManager.play_sfx("customer_leave")
+	else:
+		AudioManager.play_sfx("customer_angry")

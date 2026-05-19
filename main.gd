@@ -30,6 +30,7 @@ var time_left: float = DAY_LENGTH
 var customer_spawn_timer: float = 6.0
 var day_active: bool = true
 var game_over: bool = false
+var time_warning_played: bool = false
 
 var counter: Counter
 var workbench: Workbench
@@ -95,6 +96,10 @@ func _process(delta: float) -> void:
 		return
 	time_left -= delta
 	customer_spawn_timer -= delta
+	# One-shot warning beep when time crosses below 30s for the current day.
+	if not time_warning_played and time_left <= 30.0 and time_left > 0.0:
+		time_warning_played = true
+		AudioManager.play_sfx("time_warning")
 	var max_customers: int = min(CUSTOMER_SPOTS.size(), 1 + (day + 1) / 2)
 	if customer_spawn_timer <= 0.0 and customers.size() < max_customers and time_left > 15.0:
 		_spawn_customer()
@@ -159,12 +164,15 @@ func _end_day() -> void:
 		remove_customer(c)
 	if money >= rent:
 		money -= rent
+		AudioManager.play_sfx("day_complete")
 		hud.show_message("Day %d cleared!\nPaid $%d rent. Money left: $%d." % [day, rent, money], 2.5)
 		day += 1
 		rent += RENT_INCREASE_PER_DAY
 		time_left = DAY_LENGTH
 		customer_spawn_timer = 6.0
+		time_warning_played = false
 		day_active = true
 	else:
 		game_over = true
+		AudioManager.play_sfx("game_over")
 		hud.show_game_over(day - 1 if day > 1 else 0)

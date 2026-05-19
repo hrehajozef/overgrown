@@ -71,6 +71,7 @@ func _check_match() -> void:
 				if _arrays_equal(bouquets[j], c.order):
 					bouquets.remove_at(j)
 					game.add_money(_bouquet_price(c.order))
+					AudioManager.play_sfx("bouquet_sold")
 					c.serve()
 					done = false
 					break

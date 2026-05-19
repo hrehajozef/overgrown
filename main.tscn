@@ -153,6 +153,7 @@ offset_left = -28.0
 offset_top = -10.0
 offset_right = 28.0
 offset_bottom = 26.0
+scale = Vector2(1, 1.1834866)
 color = Color(0.45, 0.25, 0.15, 1)
 
 [node name="_ColorRect_14" type="ColorRect" parent="Pot01" unique_id=43756691]
@@ -242,6 +243,7 @@ offset_left = -28.0
 offset_top = -10.0
 offset_right = 28.0
 offset_bottom = 26.0
+scale = Vector2(1, 1.1834866)
 color = Color(0.45, 0.25, 0.15, 1)
 
 [node name="_ColorRect_28" type="ColorRect" parent="Pot02" unique_id=1794909335]
@@ -331,6 +333,7 @@ offset_left = -28.0
 offset_top = -10.0
 offset_right = 28.0
 offset_bottom = 26.0
+scale = Vector2(1, 1.1834866)
 color = Color(0.45, 0.25, 0.15, 1)
 
 [node name="_ColorRect_42" type="ColorRect" parent="Pot03" unique_id=1664459524]
@@ -420,6 +423,7 @@ offset_left = -28.0
 offset_top = -10.0
 offset_right = 28.0
 offset_bottom = 26.0
+scale = Vector2(1, 1.1834866)
 color = Color(0.45, 0.25, 0.15, 1)
 
 [node name="_ColorRect_56" type="ColorRect" parent="Pot04" unique_id=1259224265]
@@ -699,7 +703,7 @@ shape = SubResource("RectangleShape2D_cr30j")
 offset_left = -140.0
 offset_top = -40.0
 offset_right = 140.0
-offset_bottom = 40.0
+offset_bottom = 59.94702
 scale = Vector2(1.0014187, 0.9004768)
 color = Color(0.78, 0.58, 0.36, 1)
 
@@ -714,7 +718,7 @@ color = Color(0.55, 0.4, 0.22, 1)
 offset_left = -110.0
 offset_top = -25.0
 offset_right = 110.0
-offset_bottom = 25.0
+offset_bottom = 49.166626
 color = Color(0.3, 0.22, 0.15, 1)
 
 [node name="_Label_105" type="Label" parent="Workbench" unique_id=1153828722]
