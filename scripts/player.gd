@@ -11,9 +11,9 @@ extends CharacterBody2D
 # distinct input action prefix (e.g. "p2_move_left").
 
 const SPEED := 350.0
-const CAN_CAPACITY := 300.0
-const CAN_REFILL_RATE := 150.0 # %/sec at the tap → 2 seconds for an empty can
-const CAN_USE_RATE := 50.0 # %/sec into a pot
+const CAN_CAPACITY := 10.0
+const CAN_REFILL_RATE := 5.0 # liters/sec at the tap → 2 seconds for an empty can
+const CAN_USE_RATE := 2.5 # liters/sec into a pot
 const MAX_SEEDS := 10
 const BODY_RADIUS := 18.0
 const INTERACT_RADIUS := 40.0
@@ -135,7 +135,7 @@ func _create_watering_can_sprite() -> void:
 func _should_show_watering_can() -> bool:
 	if current_interactable is Pot:
 		var pot: Pot = current_interactable
-		return pot.state == Pot.State.GROWING and pot.water_level < 100.0 and water > 0.0
+		return pot.state == Pot.State.GROWING and pot.water_level < FlowerDB.WATER_CAPACITY[pot.flower_type] and water > 0.0
 	if current_interactable is WaterTap:
 		return water < CAN_CAPACITY
 	return false

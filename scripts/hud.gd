@@ -133,7 +133,7 @@ func _process(_delta: float) -> void:
 		return
 
 	water_bar.size.x = WATER_BAR_WIDTH * (p.water / Player.CAN_CAPACITY)
-	water_text.text = "%d / %d" % [int(p.water), int(Player.CAN_CAPACITY)]
+	water_text.text = "%0.1f / %0.1f L" % [p.water, Player.CAN_CAPACITY]
 
 	for i in range(seed_dots.size()):
 		var dot: Polygon2D = seed_dots[i]
@@ -148,7 +148,7 @@ func _process(_delta: float) -> void:
 		var parts: Array = []
 		for i in range(FlowerDB.TYPE_COUNT):
 			if counts[i] > 0:
-				parts.append("%sx%d" % [FlowerDB.TYPE_NAMES[i], counts[i]])
+				parts.append("%s %dx" % [FlowerDB.TYPE_NAMES[i], counts[i]])
 		var breakdown := ""
 		for i in range(parts.size()):
 			if i > 0:

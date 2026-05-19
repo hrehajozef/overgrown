@@ -10,15 +10,15 @@ const CUSTOMER_SPOTS := [
 const CUSTOMER_SPAWN_X := 1400.0
 const CUSTOMER_EXIT_X := 1400.0
 
-const DAY_LENGTH := 300.0
-const STARTING_MONEY := 30
+const DAY_LENGTH := 180.0
+const STARTING_MONEY := 10
 const STARTING_RENT := 40
-const RENT_INCREASE_PER_DAY := 20
+const RENT_INCREASE_PER_DAY := 10
 
 const PATIENCE_LOW := 100.0
 const PATIENCE_HIGH := 130.0
-const PATIENCE_STEP := 5.0
-const PATIENCE_FLOOR := 15.0
+const PATIENCE_DECREASE_PCT := 0.05 # 5% less patient each day
+const PATIENCE_MINIMUM_PCT := 0.5 # Minimum 50% of original patience
 
 var money: int = STARTING_MONEY
 var day: int = 1
@@ -115,9 +115,11 @@ func _spawn_customer() -> void:
 	if day == 1:
 		c.patience = 0.0
 	else:
-		var off: float = (day - 2) * PATIENCE_STEP
-		var low: float = max(PATIENCE_FLOOR, PATIENCE_LOW - off)
-		var high: float = max(low + 1.0, PATIENCE_HIGH - off)
+		# Patience decreases 5% per day, minimum 50% of original
+		var day_factor: float = pow(1.0 - PATIENCE_DECREASE_PCT, max(0, day - 1))
+		var multiplier: float = max(PATIENCE_MINIMUM_PCT, day_factor)
+		var low: float = PATIENCE_LOW * multiplier
+		var high: float = PATIENCE_HIGH * multiplier
 		c.patience = randf_range(low, high)
 	c.game = self
 	customers.append(c)

@@ -13,7 +13,7 @@ const CARD_TOP := 92.0
 const DOT_R := 13.0
 
 const PANEL_BG := Color(0.115, 0.115, 0.150, 0.9)
-const PANEL_BORDER := Color(1.0 , 1.0, 1.0, 0.7)
+const PANEL_BORDER := Color(1.0, 1.0, 1.0, 0.7)
 const TEXT_PRIMARY := Color(0.97, 0.95, 0.90)
 const TEXT_MUTED := Color(0.68, 0.68, 0.74)
 const TEXT_HEADER := Color(0.97, 0.86, 0.62)
@@ -78,9 +78,9 @@ func _ready() -> void:
 
 	var btn_y := bouquet_y + 124
 	var btn_x := 28
-	_make_button("Remove last  [Backspace]", Vector2(btn_x, btn_y), Vector2(btn_x+200, 46), ACCENT_REMOVE, _on_remove)
-	_make_button("Cancel  [Esc]", Vector2(btn_x+240, btn_y), Vector2(btn_x+120, 46), ACCENT_CANCEL, _on_cancel)
-	_make_button("Make bouquet  [Enter]", Vector2(btn_x+400, btn_y), Vector2(btn_x+198, 46), ACCENT_CONFIRM, _on_confirm)
+	_make_button("Remove last  [Backspace]", Vector2(btn_x, btn_y), Vector2(btn_x + 200, 46), ACCENT_REMOVE, _on_remove)
+	_make_button("Cancel  [Esc]", Vector2(btn_x + 240, btn_y), Vector2(btn_x + 120, 46), ACCENT_CANCEL, _on_cancel)
+	_make_button("Make bouquet  [Enter]", Vector2(btn_x + 400, btn_y), Vector2(btn_x + 198, 46), ACCENT_CONFIRM, _on_confirm)
 
 	_refresh()
 
@@ -216,7 +216,7 @@ func _refresh() -> void:
 		price_label.add_theme_color_override("font_color", TEXT_MUTED)
 		return
 
-	var total := 3
+	var total := 1
 	for i in range(current_bouquet.size()):
 		var flower_type: int = current_bouquet[i]
 		total += FlowerDB.PRICE[flower_type]

@@ -72,7 +72,7 @@ func _check_match() -> void:
 	_refresh_display()
 
 func _bouquet_price(bouquet: Array) -> int:
-	var total := 3
+	var total := 1
 	for t in bouquet:
 		total += FlowerDB.PRICE[t]
 	return total

@@ -13,7 +13,8 @@ enum State {EMPTY, GROWING, BLOOMED, DEAD}
 var state: int = State.EMPTY
 var flower_type: int = 0
 var growth: float = 0.0 # 0..100
-var water_level: float = 0.0 # 0..100
+var water_level: float = 0.0 # liters currently stored in the pot
+var drained_total: float = 0.0 # liters that have drained since planting
 var dry_acc: float = 0.0 # seconds at 0% water
 var bloom_acc: float = 0.0 # seconds since blooming
 # Snapshot of how grown the plant was when it died (0..1). Used so a
@@ -117,8 +118,11 @@ func _process(delta: float) -> void:
 	match state:
 		State.GROWING:
 			if water_level > 0.0:
+				var before := water_level
 				water_level = max(0.0, water_level - FlowerDB.WATER_DRAIN[flower_type] * delta)
-				growth += (100.0 / FlowerDB.GROW_TIME[flower_type]) * delta
+				var drained := before - water_level
+				drained_total += drained
+				growth = min(100.0, (drained_total / FlowerDB.WATER_REQUIREMENT[flower_type]) * 100.0)
 				dry_acc = 0.0
 				if growth >= 100.0:
 					growth = 100.0
@@ -153,6 +157,7 @@ func _refresh_visuals() -> void:
 			var ft: int = flower_type
 			var col: Color = FlowerDB.TYPE_COLORS[ft]
 			var grow_t: float = growth / 100.0
+			var capacity: float = FlowerDB.WATER_CAPACITY[ft]
 			stem_visual.visible = grow_t > 0.15
 			stem_visual.color = Color(0.20, 0.55, 0.20)
 			flower_visual.visible = grow_t > 0.3
@@ -169,7 +174,7 @@ func _refresh_visuals() -> void:
 			water_bar.visible = true
 			if water_level > 0.0:
 				water_bar.color = Color(0.30, 0.70, 1.00)
-				water_bar.size.x = 50.0 * (water_level / 100.0)
+				water_bar.size.x = 50.0 * (water_level / capacity)
 			else:
 				# Drying countdown — full at the moment water hit 0, empties as we approach death.
 				water_bar.color = Color(0.95, 0.30, 0.20)
@@ -226,15 +231,15 @@ func interact(player) -> void:
 func action2_press(player) -> void:
 	if state == State.EMPTY and player.has_seeds():
 		_plant(player.pop_seed())
-	elif state == State.GROWING and water_level < 100.0 and player.water <= 0.0:
+	elif state == State.GROWING and water_level < FlowerDB.WATER_CAPACITY[flower_type] and player.water <= 0.0:
 		AudioManager.play_sfx("can_empty")
 
 # F held: water a growing pot.
 func continuous_action(player, delta: float) -> void:
-	if state == State.GROWING and water_level < 100.0 and player.water > 0.0:
+	if state == State.GROWING and water_level < FlowerDB.WATER_CAPACITY[flower_type] and player.water > 0.0:
 		var want: float = Player.CAN_USE_RATE * delta
 		var used: float = player.use_water(want)
-		water_level = clampf(water_level + used, 0.0, 100.0)
+		water_level = clampf(water_level + used, 0.0, FlowerDB.WATER_CAPACITY[flower_type])
 		AudioManager.tick_water()
 
 # Plant a specific seed type (1/2/3 hotkeys) — pops the latest matching
@@ -247,6 +252,7 @@ func _plant(t: int) -> void:
 	flower_type = t
 	growth = 0.0
 	water_level = 0.0
+	drained_total = 0.0
 	dry_acc = 0.0
 	dead_grow_t = 1.0
 	state = State.GROWING
@@ -272,7 +278,7 @@ func get_hint(player) -> String:
 				if player.water > 0.0:
 					return "[Hold F] Water — drying!"
 				return "Drying — refill the can!"
-			if water_level < 100.0 and player.water > 0.0:
+			if water_level < FlowerDB.WATER_CAPACITY[flower_type] and player.water > 0.0:
 				return "[Hold F] Water"
 			return ""
 		State.BLOOMED:

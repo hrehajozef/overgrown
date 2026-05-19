@@ -9,6 +9,12 @@
 [ext_resource type="Script" uid="uid://b5g8qeu4h10go" path="res://scripts/hud.gd" id="7_426gj"]
 [ext_resource type="Script" uid="uid://cp8as25olajh4" path="res://scripts/player.gd" id="8_54rfi"]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_sc48t"]
+radius = 18.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_f6va0"]
+radius = 40.0
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_50g4q"]
 radius = 36.0
 
@@ -57,11 +63,16 @@ radius = 48.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qoqhg"]
 size = Vector2(62, 44)
 
+[sub_resource type="LabelSettings" id="LabelSettings_5vw27"]
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_udg8a"]
 radius = 70.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cr30j"]
 size = Vector2(240, 60)
+
+[sub_resource type="LabelSettings" id="LabelSettings_kek77"]
+font_size = 20
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_xu2l0"]
 radius = 50.0
@@ -69,14 +80,38 @@ radius = 50.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lci31"]
 size = Vector2(52.758583, 56)
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_sc48t"]
-radius = 18.0
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_f6va0"]
-radius = 40.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5vw27"]
+size = Vector2(1870, 20)
 
 [node name="Main" type="Node2D" unique_id=1116220259]
 script = ExtResource("1_11yu7")
+
+[node name="Player" type="CharacterBody2D" parent="." unique_id=492008142]
+z_index = 5
+position = Vector2(640, 380)
+scale = Vector2(2, 2)
+collision_layer = 2
+script = ExtResource("8_54rfi")
+
+[node name="_CollisionShape2D_157" type="CollisionShape2D" parent="Player" unique_id=560618103]
+shape = SubResource("CircleShape2D_sc48t")
+
+[node name="_Polygon2D_158" type="Polygon2D" parent="Player" unique_id=1129073156]
+color = Color(0.2, 0.4, 0.8, 1)
+polygon = PackedVector2Array(18, 0, 17.386665, 4.658743, 15.588457, 9, 12.7279215, 12.7279215, 9, 15.588457, 4.658743, 17.386665, 1.1021457e-15, 18, -4.658743, 17.386665, -9, 15.588457, -12.7279215, 12.7279215, -15.588457, 9, -17.386665, 4.658743, -18, 2.2042914e-15, -17.386665, -4.658743, -15.588457, -9, -12.7279215, -12.7279215, -9, -15.588457, -4.658743, -17.386665, -3.3064372e-15, -18, 4.658743, -17.386665, 9, -15.588457, 12.7279215, -12.7279215, 15.588457, -9, 17.386665, -4.658743)
+
+[node name="_Polygon2D_159" type="Polygon2D" parent="Player" unique_id=2027414103]
+position = Vector2(0, -12)
+color = Color(0.85, 0.65, 0.3, 1)
+polygon = PackedVector2Array(11, 0, 10.625184, 2.8470094, 9.526279, 5.5, 7.7781744, 7.7781744, 5.5, 9.526279, 2.8470094, 10.625184, 6.735335e-16, 11, -2.8470094, 10.625184, -5.5, 9.526279, -7.7781744, 7.7781744, -9.526279, 5.5, -10.625184, 2.8470094, -11, 1.347067e-15, -10.625184, -2.8470094, -9.526279, -5.5, -7.7781744, -7.7781744, -5.5, -9.526279, -2.8470094, -10.625184, -2.0206005e-15, -11, 2.8470094, -10.625184, 5.5, -9.526279, 7.7781744, -7.7781744, 9.526279, -5.5, 10.625184, -2.8470094)
+
+[node name="_Area2D_161" type="Area2D" parent="Player" unique_id=1620297575]
+collision_layer = 0
+collision_mask = 8
+monitorable = false
+
+[node name="_CollisionShape2D_160" type="CollisionShape2D" parent="Player/_Area2D_161" unique_id=11850666]
+shape = SubResource("CircleShape2D_f6va0")
 
 [node name="Background" type="ColorRect" parent="." unique_id=832706635]
 z_index = -10
@@ -668,13 +703,14 @@ offset_bottom = -20.0
 color = Color(0.4, 0.4, 0.45, 1)
 
 [node name="TapLabel" type="Label" parent="WaterSource" unique_id=1718294250]
-offset_left = -40.0
-offset_top = -76.0
-offset_right = 40.0
-offset_bottom = -53.0
+offset_left = -38.0
+offset_top = -86.0
+offset_right = 42.0
+offset_bottom = -63.0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 11
 text = "Water tap"
+label_settings = SubResource("LabelSettings_5vw27")
 horizontal_alignment = 1
 
 [node name="Workbench" type="Node2D" parent="." unique_id=1376026063]
@@ -722,13 +758,14 @@ offset_bottom = 49.166626
 color = Color(0.3, 0.22, 0.15, 1)
 
 [node name="_Label_105" type="Label" parent="Workbench" unique_id=1153828722]
-offset_left = -140.0
-offset_top = -64.0
-offset_right = 140.0
-offset_bottom = -41.0
+offset_left = -140.83333
+offset_top = -77.50001
+offset_right = 139.16667
+offset_bottom = -42.500008
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 11
 text = "Workbench"
+label_settings = SubResource("LabelSettings_kek77")
 horizontal_alignment = 1
 
 [node name="InventoryLabel0" type="Label" parent="Workbench" unique_id=409814295]
@@ -765,7 +802,8 @@ text = "B
 horizontal_alignment = 1
 
 [node name="Counter" type="Node2D" parent="." unique_id=198805275]
-position = Vector2(760, 582)
+position = Vector2(776, 586)
+scale = Vector2(1.2, 1.2)
 script = ExtResource("6_vo6cf")
 radius = 50.0
 
@@ -788,6 +826,17 @@ collision_mask = 0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Counter/SolidBody" unique_id=919305363]
 scale = Vector2(5.8000026, 1)
 shape = SubResource("RectangleShape2D_lci31")
+
+[node name="_Label_106" type="Label" parent="Counter" unique_id=1071130940]
+offset_left = -7.0
+offset_top = -73.0
+offset_right = 273.0
+offset_bottom = -38.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 11
+text = "Counter"
+label_settings = SubResource("LabelSettings_kek77")
+horizontal_alignment = 1
 
 [node name="_ColorRect_114" type="ColorRect" parent="Counter" unique_id=1673477062]
 offset_left = -30.0
@@ -820,16 +869,6 @@ offset_right = 8.0
 offset_bottom = -27.0
 scale = Vector2(2.040005, 2.040005)
 color = Color(0.85, 0.75, 0.2, 1)
-
-[node name="_Label_118" type="Label" parent="Counter" unique_id=1034655247]
-offset_left = -25.0
-offset_top = -64.0
-offset_right = 255.0
-offset_bottom = -41.0
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_font_sizes/font_size = 11
-text = "Counter"
-horizontal_alignment = 1
 
 [node name="DisplayRoot" type="Node2D" parent="Counter" unique_id=645127329]
 position = Vector2(-51, 47)
@@ -868,7 +907,7 @@ offset_right = 360.0
 offset_bottom = 8.0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 20
-text = "4:56"
+text = "3:00"
 
 [node name="RentLabel" type="Label" parent="HUD" unique_id=436026289]
 offset_left = 520.0
@@ -887,22 +926,31 @@ color = Color(0, 0, 0, 0.55)
 
 [node name="SeedsLabel" type="Label" parent="HUD" unique_id=1896131317]
 offset_left = 20.0
-offset_top = 658.0
-offset_right = 20.0
-offset_bottom = 658.0
+offset_top = 651.0
+offset_right = 252.0
+offset_bottom = 671.0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 14
 text = "Seeds  (1/2/3 plant by type, F LIFO)"
 
+[node name="SeedsLabel2" type="Label" parent="HUD" unique_id=1595547533]
+offset_left = 20.0
+offset_top = 696.0
+offset_right = 252.0
+offset_bottom = 716.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 14
+text = "1 = RED, 2 = YELLOW, 3 = BLUE"
+
 [node name="SeedPouchBg" type="ColorRect" parent="HUD" unique_id=369062712]
 offset_left = 20.0
-offset_top = 680.0
+offset_top = 673.0
 offset_right = 208.0
-offset_bottom = 702.0
+offset_bottom = 695.0
 color = Color(0, 0, 0, 0.45)
 
 [node name="SeedRoot" type="Node2D" parent="HUD" unique_id=1330700595]
-position = Vector2(20, 680)
+position = Vector2(20, 673)
 
 [node name="_ColorRect_130" type="ColorRect" parent="HUD/SeedRoot" unique_id=259354881]
 offset_left = 4.0
@@ -1063,7 +1111,7 @@ offset_right = 1260.0
 offset_bottom = 704.0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 12
-text = "300 / 300"
+text = "10 / 10 litres"
 horizontal_alignment = 1
 
 [node name="HintLabel" type="Label" parent="HUD" unique_id=697531647]
@@ -1074,29 +1122,30 @@ theme_override_colors/font_color = Color(1, 1, 0.6, 1)
 theme_override_font_sizes/font_size = 20
 horizontal_alignment = 1
 
-[node name="Player" type="CharacterBody2D" parent="." unique_id=492008142]
-z_index = 5
-position = Vector2(640, 380)
-scale = Vector2(2, 2)
-collision_layer = 2
-script = ExtResource("8_54rfi")
+[node name="MapBounds" type="Node" parent="." unique_id=71347135]
 
-[node name="_CollisionShape2D_157" type="CollisionShape2D" parent="Player" unique_id=560618103]
-shape = SubResource("CircleShape2D_sc48t")
+[node name="MapBoundsTop" type="StaticBody2D" parent="MapBounds" unique_id=1392598833]
 
-[node name="_Polygon2D_158" type="Polygon2D" parent="Player" unique_id=1129073156]
-color = Color(0.2, 0.4, 0.8, 1)
-polygon = PackedVector2Array(18, 0, 17.386665, 4.658743, 15.588457, 9, 12.7279215, 12.7279215, 9, 15.588457, 4.658743, 17.386665, 1.1021457e-15, 18, -4.658743, 17.386665, -9, 15.588457, -12.7279215, 12.7279215, -15.588457, 9, -17.386665, 4.658743, -18, 2.2042914e-15, -17.386665, -4.658743, -15.588457, -9, -12.7279215, -12.7279215, -9, -15.588457, -4.658743, -17.386665, -3.3064372e-15, -18, 4.658743, -17.386665, 9, -15.588457, 12.7279215, -12.7279215, 15.588457, -9, 17.386665, -4.658743)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MapBounds/MapBoundsTop" unique_id=1622320136]
+position = Vector2(594, 30)
+shape = SubResource("RectangleShape2D_5vw27")
 
-[node name="_Polygon2D_159" type="Polygon2D" parent="Player" unique_id=2027414103]
-position = Vector2(0, -12)
-color = Color(0.85, 0.65, 0.3, 1)
-polygon = PackedVector2Array(11, 0, 10.625184, 2.8470094, 9.526279, 5.5, 7.7781744, 7.7781744, 5.5, 9.526279, 2.8470094, 10.625184, 6.735335e-16, 11, -2.8470094, 10.625184, -5.5, 9.526279, -7.7781744, 7.7781744, -9.526279, 5.5, -10.625184, 2.8470094, -11, 1.347067e-15, -10.625184, -2.8470094, -9.526279, -5.5, -7.7781744, -7.7781744, -5.5, -9.526279, -2.8470094, -10.625184, -2.0206005e-15, -11, 2.8470094, -10.625184, 5.5, -9.526279, 7.7781744, -7.7781744, 9.526279, -5.5, 10.625184, -2.8470094)
+[node name="MapBoundsBottom" type="StaticBody2D" parent="MapBounds" unique_id=1169297381]
 
-[node name="_Area2D_161" type="Area2D" parent="Player" unique_id=1620297575]
-collision_layer = 0
-collision_mask = 8
-monitorable = false
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MapBounds/MapBoundsBottom" unique_id=13850791]
+position = Vector2(602, 660)
+shape = SubResource("RectangleShape2D_5vw27")
 
-[node name="_CollisionShape2D_160" type="CollisionShape2D" parent="Player/_Area2D_161" unique_id=11850666]
-shape = SubResource("CircleShape2D_f6va0")
+[node name="MapBoundsLeft" type="StaticBody2D" parent="MapBounds" unique_id=1623916503]
+rotation = 1.5707964
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MapBounds/MapBoundsLeft" unique_id=58557303]
+position = Vector2(470, 4.9999795)
+shape = SubResource("RectangleShape2D_5vw27")
+
+[node name="MapBoundsRight" type="StaticBody2D" parent="MapBounds" unique_id=391716869]
+rotation = 1.5707964
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MapBounds/MapBoundsRight" unique_id=1152941129]
+position = Vector2(382.99994, -1284)
+shape = SubResource("RectangleShape2D_5vw27")
