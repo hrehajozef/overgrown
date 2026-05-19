@@ -42,7 +42,7 @@ const MUSIC_NAME := "bg_music"
 const WATER_NAME := "water"
 
 const SFX_POOL_SIZE := 8
-const MUSIC_VOLUME_LINEAR := 0.2          # 20% of source loudness
+const MUSIC_VOLUME_LINEAR := 1.0
 const WATER_VOLUME_LINEAR := 0.7
 const WATER_FADEOUT_SECONDS := 0.15       # how long after last tick to stop
 

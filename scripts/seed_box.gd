@@ -12,15 +12,9 @@ func _ready() -> void:
 	radius = 40.0
 	super._ready()
 	add_solid_rect(Vector2(56, 40), Vector2(0, 0))
-	if not _has_baked_visuals():
+	if get_node_or_null("SeedLabel") == null:
 		push_error("SeedBox '%s' is missing visual children in the scene." % name)
 	_add_icon()
-
-func _has_baked_visuals() -> bool:
-	for child in get_children():
-		if child is Label:
-			return true
-	return false
 
 func _add_icon() -> void:
 	# Render the placeholder seed icon in the center of the box, tinted

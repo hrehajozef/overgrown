@@ -132,23 +132,23 @@ scale = Vector2(1.5, 1.5)
 script = ExtResource("2_nd72l")
 radius = 36.0
 
-[node name="_Area2D_10" type="Area2D" parent="Pot01" unique_id=2058807122]
+[node name="InteractArea" type="Area2D" parent="Pot01" unique_id=2058807122]
 collision_layer = 8
 collision_mask = 0
 monitoring = false
 metadata/owner_interactable = Object(Node2D,"unique_name_in_owner":false,"process_mode":0,"process_priority":0,"process_physics_priority":0,"process_thread_group":0,"physics_interpolation_mode":0,"auto_translate_mode":0,"editor_description":"","visible":true,"modulate":Color(1, 1, 1, 1),"self_modulate":Color(1, 1, 1, 1),"show_behind_parent":false,"top_level":false,"clip_children":0,"light_mask":1,"visibility_layer":1,"z_index":0,"z_as_relative":true,"y_sort_enabled":false,"texture_filter":0,"texture_repeat":0,"material":null,"use_parent_material":false,"position":Vector2(320, 110),"rotation":0.0,"scale":Vector2(1, 1),"skew":0.0,"script":ExtResource("2_nd72l"),"radius":36.0,"hint":"")
 
 
-[node name="_CollisionShape2D_9" type="CollisionShape2D" parent="Pot01/_Area2D_10" unique_id=1733190617]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Pot01/InteractArea" unique_id=1733190617]
 shape = SubResource("CircleShape2D_50g4q")
 
-[node name="_StaticBody2D_12" type="StaticBody2D" parent="Pot01" unique_id=447196009]
+[node name="SolidBody" type="StaticBody2D" parent="Pot01" unique_id=447196009]
 collision_mask = 0
 
-[node name="_CollisionShape2D_11" type="CollisionShape2D" parent="Pot01/_StaticBody2D_12" unique_id=525627008]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Pot01/SolidBody" unique_id=525627008]
 shape = SubResource("CircleShape2D_3dlgs")
 
-[node name="_ColorRect_13" type="ColorRect" parent="Pot01" unique_id=1910393144]
+[node name="PotVisual" type="ColorRect" parent="Pot01" unique_id=1910393144]
 offset_left = -28.0
 offset_top = -10.0
 offset_right = 28.0
@@ -156,14 +156,14 @@ offset_bottom = 26.0
 scale = Vector2(1, 1.1834866)
 color = Color(0.45, 0.25, 0.15, 1)
 
-[node name="_ColorRect_14" type="ColorRect" parent="Pot01" unique_id=43756691]
+[node name="SoilVisual" type="ColorRect" parent="Pot01" unique_id=43756691]
 offset_left = -25.0
 offset_top = -14.0
 offset_right = 25.0
 offset_bottom = -6.0
 color = Color(0.3, 0.18, 0.1, 1)
 
-[node name="_ColorRect_15" type="ColorRect" parent="Pot01" unique_id=1396792107]
+[node name="StemVisual" type="ColorRect" parent="Pot01" unique_id=1396792107]
 visible = false
 offset_left = -1.0
 offset_top = -36.0
@@ -171,7 +171,7 @@ offset_right = 2.0
 offset_bottom = -8.0
 color = Color(0.2, 0.55, 0.2, 1)
 
-[node name="_Polygon2D_16" type="Polygon2D" parent="Pot01" unique_id=1699955416]
+[node name="FlowerVisual" type="Polygon2D" parent="Pot01" unique_id=1699955416]
 visible = false
 position = Vector2(0, -38)
 color = Color(0.5, 0.5, 0.5, 1)
@@ -184,7 +184,7 @@ offset_right = 25.0
 offset_bottom = 22.0
 color = Color(0, 0, 0, 0.5)
 
-[node name="_ColorRect_18" type="ColorRect" parent="Pot01" unique_id=1307617561]
+[node name="GrowthBar" type="ColorRect" parent="Pot01" unique_id=1307617561]
 visible = false
 offset_left = -25.0
 offset_top = 18.0
@@ -199,7 +199,7 @@ offset_right = 25.0
 offset_bottom = 27.0
 color = Color(0, 0, 0, 0.5)
 
-[node name="_ColorRect_20" type="ColorRect" parent="Pot01" unique_id=855399341]
+[node name="WaterBar" type="ColorRect" parent="Pot01" unique_id=855399341]
 visible = false
 offset_left = -25.0
 offset_top = 24.0
@@ -207,7 +207,7 @@ offset_right = 25.0
 offset_bottom = 27.0
 color = Color(0.3, 0.7, 1, 1)
 
-[node name="_Label_21" type="Label" parent="Pot01" unique_id=601913897]
+[node name="StatusLabel" type="Label" parent="Pot01" unique_id=601913897]
 offset_left = -40.0
 offset_top = -60.0
 offset_right = 40.0
@@ -222,23 +222,23 @@ scale = Vector2(1.5, 1.5)
 script = ExtResource("2_nd72l")
 radius = 36.0
 
-[node name="_Area2D_24" type="Area2D" parent="Pot02" unique_id=1480471250]
+[node name="InteractArea" type="Area2D" parent="Pot02" unique_id=1480471250]
 collision_layer = 8
 collision_mask = 0
 monitoring = false
 metadata/owner_interactable = Object(Node2D,"unique_name_in_owner":false,"process_mode":0,"process_priority":0,"process_physics_priority":0,"process_thread_group":0,"physics_interpolation_mode":0,"auto_translate_mode":0,"editor_description":"","visible":true,"modulate":Color(1, 1, 1, 1),"self_modulate":Color(1, 1, 1, 1),"show_behind_parent":false,"top_level":false,"clip_children":0,"light_mask":1,"visibility_layer":1,"z_index":0,"z_as_relative":true,"y_sort_enabled":false,"texture_filter":0,"texture_repeat":0,"material":null,"use_parent_material":false,"position":Vector2(540, 110),"rotation":0.0,"scale":Vector2(1, 1),"skew":0.0,"script":ExtResource("2_nd72l"),"radius":36.0,"hint":"")
 
 
-[node name="_CollisionShape2D_23" type="CollisionShape2D" parent="Pot02/_Area2D_24" unique_id=382869513]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Pot02/InteractArea" unique_id=382869513]
 shape = SubResource("CircleShape2D_vte5o")
 
-[node name="_StaticBody2D_26" type="StaticBody2D" parent="Pot02" unique_id=509510489]
+[node name="SolidBody" type="StaticBody2D" parent="Pot02" unique_id=509510489]
 collision_mask = 0
 
-[node name="_CollisionShape2D_25" type="CollisionShape2D" parent="Pot02/_StaticBody2D_26" unique_id=1235808496]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Pot02/SolidBody" unique_id=1235808496]
 shape = SubResource("CircleShape2D_po8fv")
 
-[node name="_ColorRect_27" type="ColorRect" parent="Pot02" unique_id=1624938843]
+[node name="PotVisual" type="ColorRect" parent="Pot02" unique_id=1624938843]
 offset_left = -28.0
 offset_top = -10.0
 offset_right = 28.0
@@ -246,14 +246,14 @@ offset_bottom = 26.0
 scale = Vector2(1, 1.1834866)
 color = Color(0.45, 0.25, 0.15, 1)
 
-[node name="_ColorRect_28" type="ColorRect" parent="Pot02" unique_id=1794909335]
+[node name="SoilVisual" type="ColorRect" parent="Pot02" unique_id=1794909335]
 offset_left = -25.0
 offset_top = -14.0
 offset_right = 25.0
 offset_bottom = -6.0
 color = Color(0.3, 0.18, 0.1, 1)
 
-[node name="_ColorRect_29" type="ColorRect" parent="Pot02" unique_id=1404725785]
+[node name="StemVisual" type="ColorRect" parent="Pot02" unique_id=1404725785]
 visible = false
 offset_left = -1.0
 offset_top = -36.0
@@ -261,7 +261,7 @@ offset_right = 2.0
 offset_bottom = -8.0
 color = Color(0.2, 0.55, 0.2, 1)
 
-[node name="_Polygon2D_30" type="Polygon2D" parent="Pot02" unique_id=501853224]
+[node name="FlowerVisual" type="Polygon2D" parent="Pot02" unique_id=501853224]
 visible = false
 position = Vector2(0, -38)
 color = Color(0.5, 0.5, 0.5, 1)
@@ -274,7 +274,7 @@ offset_right = 25.0
 offset_bottom = 22.0
 color = Color(0, 0, 0, 0.5)
 
-[node name="_ColorRect_32" type="ColorRect" parent="Pot02" unique_id=1074852450]
+[node name="GrowthBar" type="ColorRect" parent="Pot02" unique_id=1074852450]
 visible = false
 offset_left = -25.0
 offset_top = 18.0
@@ -289,7 +289,7 @@ offset_right = 25.0
 offset_bottom = 27.0
 color = Color(0, 0, 0, 0.5)
 
-[node name="_ColorRect_34" type="ColorRect" parent="Pot02" unique_id=736489476]
+[node name="WaterBar" type="ColorRect" parent="Pot02" unique_id=736489476]
 visible = false
 offset_left = -25.0
 offset_top = 24.0
@@ -297,7 +297,7 @@ offset_right = 25.0
 offset_bottom = 27.0
 color = Color(0.3, 0.7, 1, 1)
 
-[node name="_Label_35" type="Label" parent="Pot02" unique_id=1507737592]
+[node name="StatusLabel" type="Label" parent="Pot02" unique_id=1507737592]
 offset_left = -40.0
 offset_top = -60.0
 offset_right = 40.0
@@ -312,23 +312,23 @@ scale = Vector2(1.5, 1.5)
 script = ExtResource("2_nd72l")
 radius = 36.0
 
-[node name="_Area2D_38" type="Area2D" parent="Pot03" unique_id=304985923]
+[node name="InteractArea" type="Area2D" parent="Pot03" unique_id=304985923]
 collision_layer = 8
 collision_mask = 0
 monitoring = false
 metadata/owner_interactable = Object(Node2D,"unique_name_in_owner":false,"process_mode":0,"process_priority":0,"process_physics_priority":0,"process_thread_group":0,"physics_interpolation_mode":0,"auto_translate_mode":0,"editor_description":"","visible":true,"modulate":Color(1, 1, 1, 1),"self_modulate":Color(1, 1, 1, 1),"show_behind_parent":false,"top_level":false,"clip_children":0,"light_mask":1,"visibility_layer":1,"z_index":0,"z_as_relative":true,"y_sort_enabled":false,"texture_filter":0,"texture_repeat":0,"material":null,"use_parent_material":false,"position":Vector2(760, 110),"rotation":0.0,"scale":Vector2(1, 1),"skew":0.0,"script":ExtResource("2_nd72l"),"radius":36.0,"hint":"")
 
 
-[node name="_CollisionShape2D_37" type="CollisionShape2D" parent="Pot03/_Area2D_38" unique_id=187388686]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Pot03/InteractArea" unique_id=187388686]
 shape = SubResource("CircleShape2D_ub8w1")
 
-[node name="_StaticBody2D_40" type="StaticBody2D" parent="Pot03" unique_id=2146026687]
+[node name="SolidBody" type="StaticBody2D" parent="Pot03" unique_id=2146026687]
 collision_mask = 0
 
-[node name="_CollisionShape2D_39" type="CollisionShape2D" parent="Pot03/_StaticBody2D_40" unique_id=270662763]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Pot03/SolidBody" unique_id=270662763]
 shape = SubResource("CircleShape2D_ynlg5")
 
-[node name="_ColorRect_41" type="ColorRect" parent="Pot03" unique_id=228825102]
+[node name="PotVisual" type="ColorRect" parent="Pot03" unique_id=228825102]
 offset_left = -28.0
 offset_top = -10.0
 offset_right = 28.0
@@ -336,14 +336,14 @@ offset_bottom = 26.0
 scale = Vector2(1, 1.1834866)
 color = Color(0.45, 0.25, 0.15, 1)
 
-[node name="_ColorRect_42" type="ColorRect" parent="Pot03" unique_id=1664459524]
+[node name="SoilVisual" type="ColorRect" parent="Pot03" unique_id=1664459524]
 offset_left = -25.0
 offset_top = -14.0
 offset_right = 25.0
 offset_bottom = -6.0
 color = Color(0.3, 0.18, 0.1, 1)
 
-[node name="_ColorRect_43" type="ColorRect" parent="Pot03" unique_id=1382019683]
+[node name="StemVisual" type="ColorRect" parent="Pot03" unique_id=1382019683]
 visible = false
 offset_left = -1.0
 offset_top = -36.0
@@ -351,7 +351,7 @@ offset_right = 2.0
 offset_bottom = -8.0
 color = Color(0.2, 0.55, 0.2, 1)
 
-[node name="_Polygon2D_44" type="Polygon2D" parent="Pot03" unique_id=555497988]
+[node name="FlowerVisual" type="Polygon2D" parent="Pot03" unique_id=555497988]
 visible = false
 position = Vector2(0, -38)
 color = Color(0.5, 0.5, 0.5, 1)
@@ -364,7 +364,7 @@ offset_right = 25.0
 offset_bottom = 22.0
 color = Color(0, 0, 0, 0.5)
 
-[node name="_ColorRect_46" type="ColorRect" parent="Pot03" unique_id=1283574912]
+[node name="GrowthBar" type="ColorRect" parent="Pot03" unique_id=1283574912]
 visible = false
 offset_left = -25.0
 offset_top = 18.0
@@ -379,7 +379,7 @@ offset_right = 25.0
 offset_bottom = 27.0
 color = Color(0, 0, 0, 0.5)
 
-[node name="_ColorRect_48" type="ColorRect" parent="Pot03" unique_id=288751035]
+[node name="WaterBar" type="ColorRect" parent="Pot03" unique_id=288751035]
 visible = false
 offset_left = -25.0
 offset_top = 24.0
@@ -387,7 +387,7 @@ offset_right = 25.0
 offset_bottom = 27.0
 color = Color(0.3, 0.7, 1, 1)
 
-[node name="_Label_49" type="Label" parent="Pot03" unique_id=1004171521]
+[node name="StatusLabel" type="Label" parent="Pot03" unique_id=1004171521]
 offset_left = -40.0
 offset_top = -60.0
 offset_right = 40.0
@@ -402,23 +402,23 @@ scale = Vector2(1.5, 1.5)
 script = ExtResource("2_nd72l")
 radius = 36.0
 
-[node name="_Area2D_52" type="Area2D" parent="Pot04" unique_id=542046852]
+[node name="InteractArea" type="Area2D" parent="Pot04" unique_id=542046852]
 collision_layer = 8
 collision_mask = 0
 monitoring = false
 metadata/owner_interactable = Object(Node2D,"unique_name_in_owner":false,"process_mode":0,"process_priority":0,"process_physics_priority":0,"process_thread_group":0,"physics_interpolation_mode":0,"auto_translate_mode":0,"editor_description":"","visible":true,"modulate":Color(1, 1, 1, 1),"self_modulate":Color(1, 1, 1, 1),"show_behind_parent":false,"top_level":false,"clip_children":0,"light_mask":1,"visibility_layer":1,"z_index":0,"z_as_relative":true,"y_sort_enabled":false,"texture_filter":0,"texture_repeat":0,"material":null,"use_parent_material":false,"position":Vector2(980, 110),"rotation":0.0,"scale":Vector2(1, 1),"skew":0.0,"script":ExtResource("2_nd72l"),"radius":36.0,"hint":"")
 
 
-[node name="_CollisionShape2D_51" type="CollisionShape2D" parent="Pot04/_Area2D_52" unique_id=739525562]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Pot04/InteractArea" unique_id=739525562]
 shape = SubResource("CircleShape2D_ab83r")
 
-[node name="_StaticBody2D_54" type="StaticBody2D" parent="Pot04" unique_id=1730159412]
+[node name="SolidBody" type="StaticBody2D" parent="Pot04" unique_id=1730159412]
 collision_mask = 0
 
-[node name="_CollisionShape2D_53" type="CollisionShape2D" parent="Pot04/_StaticBody2D_54" unique_id=463904118]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Pot04/SolidBody" unique_id=463904118]
 shape = SubResource("CircleShape2D_1xb4a")
 
-[node name="_ColorRect_55" type="ColorRect" parent="Pot04" unique_id=1686063524]
+[node name="PotVisual" type="ColorRect" parent="Pot04" unique_id=1686063524]
 offset_left = -28.0
 offset_top = -10.0
 offset_right = 28.0
@@ -426,14 +426,14 @@ offset_bottom = 26.0
 scale = Vector2(1, 1.1834866)
 color = Color(0.45, 0.25, 0.15, 1)
 
-[node name="_ColorRect_56" type="ColorRect" parent="Pot04" unique_id=1259224265]
+[node name="SoilVisual" type="ColorRect" parent="Pot04" unique_id=1259224265]
 offset_left = -25.0
 offset_top = -14.0
 offset_right = 25.0
 offset_bottom = -6.0
 color = Color(0.3, 0.18, 0.1, 1)
 
-[node name="_ColorRect_57" type="ColorRect" parent="Pot04" unique_id=592439943]
+[node name="StemVisual" type="ColorRect" parent="Pot04" unique_id=592439943]
 visible = false
 offset_left = -1.0
 offset_top = -36.0
@@ -441,7 +441,7 @@ offset_right = 2.0
 offset_bottom = -8.0
 color = Color(0.2, 0.55, 0.2, 1)
 
-[node name="_Polygon2D_58" type="Polygon2D" parent="Pot04" unique_id=1901689836]
+[node name="FlowerVisual" type="Polygon2D" parent="Pot04" unique_id=1901689836]
 visible = false
 position = Vector2(0, -38)
 color = Color(0.5, 0.5, 0.5, 1)
@@ -454,7 +454,7 @@ offset_right = 25.0
 offset_bottom = 22.0
 color = Color(0, 0, 0, 0.5)
 
-[node name="_ColorRect_60" type="ColorRect" parent="Pot04" unique_id=763780005]
+[node name="GrowthBar" type="ColorRect" parent="Pot04" unique_id=763780005]
 visible = false
 offset_left = -25.0
 offset_top = 18.0
@@ -469,7 +469,7 @@ offset_right = 25.0
 offset_bottom = 27.0
 color = Color(0, 0, 0, 0.5)
 
-[node name="_ColorRect_62" type="ColorRect" parent="Pot04" unique_id=2131000784]
+[node name="WaterBar" type="ColorRect" parent="Pot04" unique_id=2131000784]
 visible = false
 offset_left = -25.0
 offset_top = 24.0
@@ -477,7 +477,7 @@ offset_right = 25.0
 offset_bottom = 27.0
 color = Color(0.3, 0.7, 1, 1)
 
-[node name="_Label_63" type="Label" parent="Pot04" unique_id=1140413774]
+[node name="StatusLabel" type="Label" parent="Pot04" unique_id=1140413774]
 offset_left = -40.0
 offset_top = -60.0
 offset_right = 40.0
@@ -491,20 +491,20 @@ position = Vector2(90, 220)
 scale = Vector2(1.5, 1.5)
 script = ExtResource("3_wsu4f")
 
-[node name="_Area2D_66" type="Area2D" parent="RedSeedBox" unique_id=1626490112]
+[node name="InteractArea" type="Area2D" parent="RedSeedBox" unique_id=1626490112]
 collision_layer = 8
 collision_mask = 0
 monitoring = false
 metadata/owner_interactable = Object(Node2D,"unique_name_in_owner":false,"process_mode":0,"process_priority":0,"process_physics_priority":0,"process_thread_group":0,"physics_interpolation_mode":0,"auto_translate_mode":0,"editor_description":"","visible":true,"modulate":Color(1, 1, 1, 1),"self_modulate":Color(1, 1, 1, 1),"show_behind_parent":false,"top_level":false,"clip_children":0,"light_mask":1,"visibility_layer":1,"z_index":0,"z_as_relative":true,"y_sort_enabled":false,"texture_filter":0,"texture_repeat":0,"material":null,"use_parent_material":false,"position":Vector2(90, 220),"rotation":0.0,"scale":Vector2(1, 1),"skew":0.0,"script":ExtResource("3_wsu4f"),"flower_type":0,"radius":40.0,"hint":"")
 
 
-[node name="_CollisionShape2D_65" type="CollisionShape2D" parent="RedSeedBox/_Area2D_66" unique_id=991759354]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RedSeedBox/InteractArea" unique_id=991759354]
 shape = SubResource("CircleShape2D_0dnjj")
 
-[node name="_StaticBody2D_68" type="StaticBody2D" parent="RedSeedBox" unique_id=1558852258]
+[node name="SolidBody" type="StaticBody2D" parent="RedSeedBox" unique_id=1558852258]
 collision_mask = 0
 
-[node name="_CollisionShape2D_67" type="CollisionShape2D" parent="RedSeedBox/_StaticBody2D_68" unique_id=1849866133]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RedSeedBox/SolidBody" unique_id=1849866133]
 shape = SubResource("RectangleShape2D_uwexw")
 
 [node name="_ColorRect_69" type="ColorRect" parent="RedSeedBox" unique_id=1590543819]
@@ -521,7 +521,7 @@ offset_right = 24.0
 offset_bottom = 16.0
 color = Color(0.736, 0.16000001, 0.24000001, 0.8)
 
-[node name="_Label_71" type="Label" parent="RedSeedBox" unique_id=1368619232]
+[node name="SeedLabel" type="Label" parent="RedSeedBox" unique_id=1368619232]
 offset_left = -50.0
 offset_top = -44.0
 offset_right = 50.0
@@ -537,20 +537,20 @@ scale = Vector2(1.5, 1.5)
 script = ExtResource("3_wsu4f")
 flower_type = 1
 
-[node name="_Area2D_74" type="Area2D" parent="YellowSeedBox" unique_id=2004467898]
+[node name="InteractArea" type="Area2D" parent="YellowSeedBox" unique_id=2004467898]
 collision_layer = 8
 collision_mask = 0
 monitoring = false
 metadata/owner_interactable = Object(Node2D,"unique_name_in_owner":false,"process_mode":0,"process_priority":0,"process_physics_priority":0,"process_thread_group":0,"physics_interpolation_mode":0,"auto_translate_mode":0,"editor_description":"","visible":true,"modulate":Color(1, 1, 1, 1),"self_modulate":Color(1, 1, 1, 1),"show_behind_parent":false,"top_level":false,"clip_children":0,"light_mask":1,"visibility_layer":1,"z_index":0,"z_as_relative":true,"y_sort_enabled":false,"texture_filter":0,"texture_repeat":0,"material":null,"use_parent_material":false,"position":Vector2(90, 400),"rotation":0.0,"scale":Vector2(1, 1),"skew":0.0,"script":ExtResource("3_wsu4f"),"flower_type":1,"radius":40.0,"hint":"")
 
 
-[node name="_CollisionShape2D_73" type="CollisionShape2D" parent="YellowSeedBox/_Area2D_74" unique_id=1131554147]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="YellowSeedBox/InteractArea" unique_id=1131554147]
 shape = SubResource("CircleShape2D_8pgb7")
 
-[node name="_StaticBody2D_76" type="StaticBody2D" parent="YellowSeedBox" unique_id=453941220]
+[node name="SolidBody" type="StaticBody2D" parent="YellowSeedBox" unique_id=453941220]
 collision_mask = 0
 
-[node name="_CollisionShape2D_75" type="CollisionShape2D" parent="YellowSeedBox/_StaticBody2D_76" unique_id=75757498]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="YellowSeedBox/SolidBody" unique_id=75757498]
 shape = SubResource("RectangleShape2D_tilu5")
 
 [node name="_ColorRect_77" type="ColorRect" parent="YellowSeedBox" unique_id=480087604]
@@ -567,7 +567,7 @@ offset_right = 24.0
 offset_bottom = 16.0
 color = Color(0.768, 0.68, 0.16000001, 0.8)
 
-[node name="_Label_79" type="Label" parent="YellowSeedBox" unique_id=1693819555]
+[node name="SeedLabel" type="Label" parent="YellowSeedBox" unique_id=1693819555]
 offset_left = -50.0
 offset_top = -44.0
 offset_right = 50.0
@@ -583,20 +583,20 @@ scale = Vector2(1.5, 1.5)
 script = ExtResource("3_wsu4f")
 flower_type = 2
 
-[node name="_Area2D_82" type="Area2D" parent="BlueSeedBox" unique_id=194013880]
+[node name="InteractArea" type="Area2D" parent="BlueSeedBox" unique_id=194013880]
 collision_layer = 8
 collision_mask = 0
 monitoring = false
 metadata/owner_interactable = Object(Node2D,"unique_name_in_owner":false,"process_mode":0,"process_priority":0,"process_physics_priority":0,"process_thread_group":0,"physics_interpolation_mode":0,"auto_translate_mode":0,"editor_description":"","visible":true,"modulate":Color(1, 1, 1, 1),"self_modulate":Color(1, 1, 1, 1),"show_behind_parent":false,"top_level":false,"clip_children":0,"light_mask":1,"visibility_layer":1,"z_index":0,"z_as_relative":true,"y_sort_enabled":false,"texture_filter":0,"texture_repeat":0,"material":null,"use_parent_material":false,"position":Vector2(90, 580),"rotation":0.0,"scale":Vector2(1, 1),"skew":0.0,"script":ExtResource("3_wsu4f"),"flower_type":2,"radius":40.0,"hint":"")
 
 
-[node name="_CollisionShape2D_81" type="CollisionShape2D" parent="BlueSeedBox/_Area2D_82" unique_id=1877258954]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BlueSeedBox/InteractArea" unique_id=1877258954]
 shape = SubResource("CircleShape2D_24xe2")
 
-[node name="_StaticBody2D_84" type="StaticBody2D" parent="BlueSeedBox" unique_id=95168257]
+[node name="SolidBody" type="StaticBody2D" parent="BlueSeedBox" unique_id=95168257]
 collision_mask = 0
 
-[node name="_CollisionShape2D_83" type="CollisionShape2D" parent="BlueSeedBox/_StaticBody2D_84" unique_id=357827377]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BlueSeedBox/SolidBody" unique_id=357827377]
 shape = SubResource("RectangleShape2D_cj3xu")
 
 [node name="_ColorRect_85" type="ColorRect" parent="BlueSeedBox" unique_id=561101950]
@@ -613,7 +613,7 @@ offset_right = 24.0
 offset_bottom = 16.0
 color = Color(0.24000001, 0.4, 0.76, 0.8)
 
-[node name="_Label_87" type="Label" parent="BlueSeedBox" unique_id=540826291]
+[node name="SeedLabel" type="Label" parent="BlueSeedBox" unique_id=540826291]
 offset_left = -50.0
 offset_top = -44.0
 offset_right = 50.0
@@ -629,20 +629,20 @@ scale = Vector2(1.5, 1.5)
 script = ExtResource("4_24rtc")
 radius = 48.0
 
-[node name="_Area2D_90" type="Area2D" parent="WaterSource" unique_id=262758643]
+[node name="InteractArea" type="Area2D" parent="WaterSource" unique_id=262758643]
 collision_layer = 8
 collision_mask = 0
 monitoring = false
 metadata/owner_interactable = Object(Node2D,"unique_name_in_owner":false,"process_mode":0,"process_priority":0,"process_physics_priority":0,"process_thread_group":0,"physics_interpolation_mode":0,"auto_translate_mode":0,"editor_description":"","visible":true,"modulate":Color(1, 1, 1, 1),"self_modulate":Color(1, 1, 1, 1),"show_behind_parent":false,"top_level":false,"clip_children":0,"light_mask":1,"visibility_layer":1,"z_index":0,"z_as_relative":true,"y_sort_enabled":false,"texture_filter":0,"texture_repeat":0,"material":null,"use_parent_material":false,"position":Vector2(1180, 220),"rotation":0.0,"scale":Vector2(1, 1),"skew":0.0,"script":ExtResource("4_24rtc"),"radius":48.0,"hint":"")
 
 
-[node name="_CollisionShape2D_89" type="CollisionShape2D" parent="WaterSource/_Area2D_90" unique_id=561378668]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WaterSource/InteractArea" unique_id=561378668]
 shape = SubResource("CircleShape2D_ql764")
 
-[node name="_StaticBody2D_92" type="StaticBody2D" parent="WaterSource" unique_id=569429089]
+[node name="SolidBody" type="StaticBody2D" parent="WaterSource" unique_id=569429089]
 collision_mask = 0
 
-[node name="_CollisionShape2D_91" type="CollisionShape2D" parent="WaterSource/_StaticBody2D_92" unique_id=1395085679]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WaterSource/SolidBody" unique_id=1395085679]
 position = Vector2(0, -2)
 shape = SubResource("RectangleShape2D_qoqhg")
 
@@ -667,7 +667,7 @@ offset_right = 20.0
 offset_bottom = -20.0
 color = Color(0.4, 0.4, 0.45, 1)
 
-[node name="_Label_96" type="Label" parent="WaterSource" unique_id=1718294250]
+[node name="TapLabel" type="Label" parent="WaterSource" unique_id=1718294250]
 offset_left = -40.0
 offset_top = -76.0
 offset_right = 40.0
@@ -683,20 +683,20 @@ scale = Vector2(1.2, 1.2)
 script = ExtResource("5_rfgut")
 radius = 70.0
 
-[node name="_Area2D_99" type="Area2D" parent="Workbench" unique_id=873660830]
+[node name="InteractArea" type="Area2D" parent="Workbench" unique_id=873660830]
 collision_layer = 8
 collision_mask = 0
 monitoring = false
 metadata/owner_interactable = Object(Node2D,"unique_name_in_owner":false,"process_mode":0,"process_priority":0,"process_physics_priority":0,"process_thread_group":0,"physics_interpolation_mode":0,"auto_translate_mode":0,"editor_description":"","visible":true,"modulate":Color(1, 1, 1, 1),"self_modulate":Color(1, 1, 1, 1),"show_behind_parent":false,"top_level":false,"clip_children":0,"light_mask":1,"visibility_layer":1,"z_index":0,"z_as_relative":true,"y_sort_enabled":false,"texture_filter":0,"texture_repeat":0,"material":null,"use_parent_material":false,"position":Vector2(370, 620),"rotation":0.0,"scale":Vector2(1, 1),"skew":0.0,"script":ExtResource("5_rfgut"),"radius":70.0,"hint":"")
 
 
-[node name="_CollisionShape2D_98" type="CollisionShape2D" parent="Workbench/_Area2D_99" unique_id=1483639471]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Workbench/InteractArea" unique_id=1483639471]
 shape = SubResource("CircleShape2D_udg8a")
 
-[node name="_StaticBody2D_101" type="StaticBody2D" parent="Workbench" unique_id=396345164]
+[node name="SolidBody" type="StaticBody2D" parent="Workbench" unique_id=396345164]
 collision_mask = 0
 
-[node name="_CollisionShape2D_100" type="CollisionShape2D" parent="Workbench/_StaticBody2D_101" unique_id=1193791006]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Workbench/SolidBody" unique_id=1193791006]
 shape = SubResource("RectangleShape2D_cr30j")
 
 [node name="_ColorRect_102" type="ColorRect" parent="Workbench" unique_id=1748132173]
@@ -731,7 +731,7 @@ theme_override_font_sizes/font_size = 11
 text = "Workbench"
 horizontal_alignment = 1
 
-[node name="_Label_106" type="Label" parent="Workbench" unique_id=409814295]
+[node name="InventoryLabel0" type="Label" parent="Workbench" unique_id=409814295]
 offset_left = -110.0
 offset_top = -18.0
 offset_right = -70.0
@@ -742,7 +742,7 @@ text = "R
 0"
 horizontal_alignment = 1
 
-[node name="_Label_107" type="Label" parent="Workbench" unique_id=711638790]
+[node name="InventoryLabel1" type="Label" parent="Workbench" unique_id=711638790]
 offset_left = -20.0
 offset_top = -18.0
 offset_right = 20.0
@@ -753,7 +753,7 @@ text = "Y
 0"
 horizontal_alignment = 1
 
-[node name="_Label_108" type="Label" parent="Workbench" unique_id=230598688]
+[node name="InventoryLabel2" type="Label" parent="Workbench" unique_id=230598688]
 offset_left = 70.0
 offset_top = -18.0
 offset_right = 110.0
@@ -769,7 +769,7 @@ position = Vector2(760, 582)
 script = ExtResource("6_vo6cf")
 radius = 50.0
 
-[node name="_Area2D_111" type="Area2D" parent="Counter" unique_id=1630281255]
+[node name="InteractArea" type="Area2D" parent="Counter" unique_id=1630281255]
 position = Vector2(141, 6)
 collision_layer = 8
 collision_mask = 0
@@ -777,15 +777,15 @@ monitoring = false
 metadata/owner_interactable = Object(Node2D,"unique_name_in_owner":false,"process_mode":0,"process_priority":0,"process_physics_priority":0,"process_thread_group":0,"physics_interpolation_mode":0,"auto_translate_mode":0,"editor_description":"","visible":true,"modulate":Color(1, 1, 1, 1),"self_modulate":Color(1, 1, 1, 1),"show_behind_parent":false,"top_level":false,"clip_children":0,"light_mask":1,"visibility_layer":1,"z_index":0,"z_as_relative":true,"y_sort_enabled":false,"texture_filter":0,"texture_repeat":0,"material":null,"use_parent_material":false,"position":Vector2(760, 605),"rotation":0.0,"scale":Vector2(1, 1),"skew":0.0,"script":ExtResource("6_vo6cf"),"radius":50.0,"hint":"")
 
 
-[node name="_CollisionShape2D_110" type="CollisionShape2D" parent="Counter/_Area2D_111" unique_id=1599566437]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Counter/InteractArea" unique_id=1599566437]
 scale = Vector2(1.8000023, 1.8000023)
 shape = SubResource("CircleShape2D_xu2l0")
 
-[node name="_StaticBody2D_113" type="StaticBody2D" parent="Counter" unique_id=142765313]
+[node name="SolidBody" type="StaticBody2D" parent="Counter" unique_id=142765313]
 position = Vector2(140, 5)
 collision_mask = 0
 
-[node name="_CollisionShape2D_112" type="CollisionShape2D" parent="Counter/_StaticBody2D_113" unique_id=919305363]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Counter/SolidBody" unique_id=919305363]
 scale = Vector2(5.8000026, 1)
 shape = SubResource("RectangleShape2D_lci31")
 
@@ -831,19 +831,19 @@ theme_override_font_sizes/font_size = 11
 text = "Counter"
 horizontal_alignment = 1
 
-[node name="_Node2D_119" type="Node2D" parent="Counter" unique_id=645127329]
+[node name="DisplayRoot" type="Node2D" parent="Counter" unique_id=645127329]
 position = Vector2(-51, 47)
 
 [node name="HUD" type="CanvasLayer" parent="." unique_id=348161052]
 layer = 10
 script = ExtResource("7_426gj")
 
-[node name="_ColorRect_121" type="ColorRect" parent="HUD" unique_id=871401992]
+[node name="TopBar" type="ColorRect" parent="HUD" unique_id=871401992]
 offset_right = 1280.0
 offset_bottom = 40.0
 color = Color(0, 0, 0, 0.55)
 
-[node name="_Label_122" type="Label" parent="HUD" unique_id=743747102]
+[node name="MoneyLabel" type="Label" parent="HUD" unique_id=743747102]
 offset_left = 20.0
 offset_top = 8.0
 offset_right = 20.0
@@ -852,7 +852,7 @@ theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 20
 text = "$30"
 
-[node name="_Label_123" type="Label" parent="HUD" unique_id=1109529162]
+[node name="DayLabel" type="Label" parent="HUD" unique_id=1109529162]
 offset_left = 200.0
 offset_top = 8.0
 offset_right = 200.0
@@ -861,7 +861,7 @@ theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 20
 text = "Day 1"
 
-[node name="_Label_124" type="Label" parent="HUD" unique_id=754250024]
+[node name="TimeLabel" type="Label" parent="HUD" unique_id=754250024]
 offset_left = 360.0
 offset_top = 8.0
 offset_right = 360.0
@@ -870,7 +870,7 @@ theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 20
 text = "4:56"
 
-[node name="_Label_125" type="Label" parent="HUD" unique_id=436026289]
+[node name="RentLabel" type="Label" parent="HUD" unique_id=436026289]
 offset_left = 520.0
 offset_top = 8.0
 offset_right = 520.0
@@ -879,13 +879,13 @@ theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 20
 text = "Rent: $40"
 
-[node name="_ColorRect_126" type="ColorRect" parent="HUD" unique_id=356022662]
+[node name="BottomBar" type="ColorRect" parent="HUD" unique_id=356022662]
 offset_top = 650.0
 offset_right = 1280.0
 offset_bottom = 720.0
 color = Color(0, 0, 0, 0.55)
 
-[node name="_Label_127" type="Label" parent="HUD" unique_id=1896131317]
+[node name="SeedsLabel" type="Label" parent="HUD" unique_id=1896131317]
 offset_left = 20.0
 offset_top = 658.0
 offset_right = 20.0
@@ -894,137 +894,137 @@ theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 14
 text = "Seeds  (1/2/3 plant by type, F LIFO)"
 
-[node name="_ColorRect_128" type="ColorRect" parent="HUD" unique_id=369062712]
+[node name="SeedPouchBg" type="ColorRect" parent="HUD" unique_id=369062712]
 offset_left = 20.0
 offset_top = 680.0
 offset_right = 208.0
 offset_bottom = 702.0
 color = Color(0, 0, 0, 0.45)
 
-[node name="_Node2D_129" type="Node2D" parent="HUD" unique_id=1330700595]
+[node name="SeedRoot" type="Node2D" parent="HUD" unique_id=1330700595]
 position = Vector2(20, 680)
 
-[node name="_ColorRect_130" type="ColorRect" parent="HUD/_Node2D_129" unique_id=259354881]
+[node name="_ColorRect_130" type="ColorRect" parent="HUD/SeedRoot" unique_id=259354881]
 offset_left = 4.0
 offset_top = 2.0
 offset_right = 18.0
 offset_bottom = 20.0
 color = Color(1, 1, 1, 0.08)
 
-[node name="_Polygon2D_131" type="Polygon2D" parent="HUD/_Node2D_129" unique_id=1402584012]
+[node name="_Polygon2D_131" type="Polygon2D" parent="HUD/SeedRoot" unique_id=1402584012]
 visible = false
 position = Vector2(11, 11)
 polygon = PackedVector2Array(7, 0, 6.4671564, 2.678784, 4.9497476, 4.9497476, 2.678784, 6.4671564, 4.2861222e-16, 7, -2.678784, 6.4671564, -4.9497476, 4.9497476, -6.4671564, 2.678784, -7, 8.5722445e-16, -6.4671564, -2.678784, -4.9497476, -4.9497476, -2.678784, -6.4671564, -1.2858367e-15, -7, 2.678784, -6.4671564, 4.9497476, -4.9497476, 6.4671564, -2.678784)
 
-[node name="_ColorRect_132" type="ColorRect" parent="HUD/_Node2D_129" unique_id=995651636]
+[node name="_ColorRect_132" type="ColorRect" parent="HUD/SeedRoot" unique_id=995651636]
 offset_left = 22.0
 offset_top = 2.0
 offset_right = 36.0
 offset_bottom = 20.0
 color = Color(1, 1, 1, 0.08)
 
-[node name="_Polygon2D_133" type="Polygon2D" parent="HUD/_Node2D_129" unique_id=213874564]
+[node name="_Polygon2D_133" type="Polygon2D" parent="HUD/SeedRoot" unique_id=213874564]
 visible = false
 position = Vector2(29, 11)
 polygon = PackedVector2Array(7, 0, 6.4671564, 2.678784, 4.9497476, 4.9497476, 2.678784, 6.4671564, 4.2861222e-16, 7, -2.678784, 6.4671564, -4.9497476, 4.9497476, -6.4671564, 2.678784, -7, 8.5722445e-16, -6.4671564, -2.678784, -4.9497476, -4.9497476, -2.678784, -6.4671564, -1.2858367e-15, -7, 2.678784, -6.4671564, 4.9497476, -4.9497476, 6.4671564, -2.678784)
 
-[node name="_ColorRect_134" type="ColorRect" parent="HUD/_Node2D_129" unique_id=368295773]
+[node name="_ColorRect_134" type="ColorRect" parent="HUD/SeedRoot" unique_id=368295773]
 offset_left = 40.0
 offset_top = 2.0
 offset_right = 54.0
 offset_bottom = 20.0
 color = Color(1, 1, 1, 0.08)
 
-[node name="_Polygon2D_135" type="Polygon2D" parent="HUD/_Node2D_129" unique_id=795376376]
+[node name="_Polygon2D_135" type="Polygon2D" parent="HUD/SeedRoot" unique_id=795376376]
 visible = false
 position = Vector2(47, 11)
 polygon = PackedVector2Array(7, 0, 6.4671564, 2.678784, 4.9497476, 4.9497476, 2.678784, 6.4671564, 4.2861222e-16, 7, -2.678784, 6.4671564, -4.9497476, 4.9497476, -6.4671564, 2.678784, -7, 8.5722445e-16, -6.4671564, -2.678784, -4.9497476, -4.9497476, -2.678784, -6.4671564, -1.2858367e-15, -7, 2.678784, -6.4671564, 4.9497476, -4.9497476, 6.4671564, -2.678784)
 
-[node name="_ColorRect_136" type="ColorRect" parent="HUD/_Node2D_129" unique_id=926851251]
+[node name="_ColorRect_136" type="ColorRect" parent="HUD/SeedRoot" unique_id=926851251]
 offset_left = 58.0
 offset_top = 2.0
 offset_right = 72.0
 offset_bottom = 20.0
 color = Color(1, 1, 1, 0.08)
 
-[node name="_Polygon2D_137" type="Polygon2D" parent="HUD/_Node2D_129" unique_id=1169111653]
+[node name="_Polygon2D_137" type="Polygon2D" parent="HUD/SeedRoot" unique_id=1169111653]
 visible = false
 position = Vector2(65, 11)
 polygon = PackedVector2Array(7, 0, 6.4671564, 2.678784, 4.9497476, 4.9497476, 2.678784, 6.4671564, 4.2861222e-16, 7, -2.678784, 6.4671564, -4.9497476, 4.9497476, -6.4671564, 2.678784, -7, 8.5722445e-16, -6.4671564, -2.678784, -4.9497476, -4.9497476, -2.678784, -6.4671564, -1.2858367e-15, -7, 2.678784, -6.4671564, 4.9497476, -4.9497476, 6.4671564, -2.678784)
 
-[node name="_ColorRect_138" type="ColorRect" parent="HUD/_Node2D_129" unique_id=1336905548]
+[node name="_ColorRect_138" type="ColorRect" parent="HUD/SeedRoot" unique_id=1336905548]
 offset_left = 76.0
 offset_top = 2.0
 offset_right = 90.0
 offset_bottom = 20.0
 color = Color(1, 1, 1, 0.08)
 
-[node name="_Polygon2D_139" type="Polygon2D" parent="HUD/_Node2D_129" unique_id=1308958558]
+[node name="_Polygon2D_139" type="Polygon2D" parent="HUD/SeedRoot" unique_id=1308958558]
 visible = false
 position = Vector2(83, 11)
 polygon = PackedVector2Array(7, 0, 6.4671564, 2.678784, 4.9497476, 4.9497476, 2.678784, 6.4671564, 4.2861222e-16, 7, -2.678784, 6.4671564, -4.9497476, 4.9497476, -6.4671564, 2.678784, -7, 8.5722445e-16, -6.4671564, -2.678784, -4.9497476, -4.9497476, -2.678784, -6.4671564, -1.2858367e-15, -7, 2.678784, -6.4671564, 4.9497476, -4.9497476, 6.4671564, -2.678784)
 
-[node name="_ColorRect_140" type="ColorRect" parent="HUD/_Node2D_129" unique_id=1061662384]
+[node name="_ColorRect_140" type="ColorRect" parent="HUD/SeedRoot" unique_id=1061662384]
 offset_left = 94.0
 offset_top = 2.0
 offset_right = 108.0
 offset_bottom = 20.0
 color = Color(1, 1, 1, 0.08)
 
-[node name="_Polygon2D_141" type="Polygon2D" parent="HUD/_Node2D_129" unique_id=185807710]
+[node name="_Polygon2D_141" type="Polygon2D" parent="HUD/SeedRoot" unique_id=185807710]
 visible = false
 position = Vector2(101, 11)
 polygon = PackedVector2Array(7, 0, 6.4671564, 2.678784, 4.9497476, 4.9497476, 2.678784, 6.4671564, 4.2861222e-16, 7, -2.678784, 6.4671564, -4.9497476, 4.9497476, -6.4671564, 2.678784, -7, 8.5722445e-16, -6.4671564, -2.678784, -4.9497476, -4.9497476, -2.678784, -6.4671564, -1.2858367e-15, -7, 2.678784, -6.4671564, 4.9497476, -4.9497476, 6.4671564, -2.678784)
 
-[node name="_ColorRect_142" type="ColorRect" parent="HUD/_Node2D_129" unique_id=539446011]
+[node name="_ColorRect_142" type="ColorRect" parent="HUD/SeedRoot" unique_id=539446011]
 offset_left = 112.0
 offset_top = 2.0
 offset_right = 126.0
 offset_bottom = 20.0
 color = Color(1, 1, 1, 0.08)
 
-[node name="_Polygon2D_143" type="Polygon2D" parent="HUD/_Node2D_129" unique_id=1549623810]
+[node name="_Polygon2D_143" type="Polygon2D" parent="HUD/SeedRoot" unique_id=1549623810]
 visible = false
 position = Vector2(119, 11)
 polygon = PackedVector2Array(7, 0, 6.4671564, 2.678784, 4.9497476, 4.9497476, 2.678784, 6.4671564, 4.2861222e-16, 7, -2.678784, 6.4671564, -4.9497476, 4.9497476, -6.4671564, 2.678784, -7, 8.5722445e-16, -6.4671564, -2.678784, -4.9497476, -4.9497476, -2.678784, -6.4671564, -1.2858367e-15, -7, 2.678784, -6.4671564, 4.9497476, -4.9497476, 6.4671564, -2.678784)
 
-[node name="_ColorRect_144" type="ColorRect" parent="HUD/_Node2D_129" unique_id=1427502981]
+[node name="_ColorRect_144" type="ColorRect" parent="HUD/SeedRoot" unique_id=1427502981]
 offset_left = 130.0
 offset_top = 2.0
 offset_right = 144.0
 offset_bottom = 20.0
 color = Color(1, 1, 1, 0.08)
 
-[node name="_Polygon2D_145" type="Polygon2D" parent="HUD/_Node2D_129" unique_id=927600864]
+[node name="_Polygon2D_145" type="Polygon2D" parent="HUD/SeedRoot" unique_id=927600864]
 visible = false
 position = Vector2(137, 11)
 polygon = PackedVector2Array(7, 0, 6.4671564, 2.678784, 4.9497476, 4.9497476, 2.678784, 6.4671564, 4.2861222e-16, 7, -2.678784, 6.4671564, -4.9497476, 4.9497476, -6.4671564, 2.678784, -7, 8.5722445e-16, -6.4671564, -2.678784, -4.9497476, -4.9497476, -2.678784, -6.4671564, -1.2858367e-15, -7, 2.678784, -6.4671564, 4.9497476, -4.9497476, 6.4671564, -2.678784)
 
-[node name="_ColorRect_146" type="ColorRect" parent="HUD/_Node2D_129" unique_id=1332998009]
+[node name="_ColorRect_146" type="ColorRect" parent="HUD/SeedRoot" unique_id=1332998009]
 offset_left = 148.0
 offset_top = 2.0
 offset_right = 162.0
 offset_bottom = 20.0
 color = Color(1, 1, 1, 0.08)
 
-[node name="_Polygon2D_147" type="Polygon2D" parent="HUD/_Node2D_129" unique_id=1187626293]
+[node name="_Polygon2D_147" type="Polygon2D" parent="HUD/SeedRoot" unique_id=1187626293]
 visible = false
 position = Vector2(155, 11)
 polygon = PackedVector2Array(7, 0, 6.4671564, 2.678784, 4.9497476, 4.9497476, 2.678784, 6.4671564, 4.2861222e-16, 7, -2.678784, 6.4671564, -4.9497476, 4.9497476, -6.4671564, 2.678784, -7, 8.5722445e-16, -6.4671564, -2.678784, -4.9497476, -4.9497476, -2.678784, -6.4671564, -1.2858367e-15, -7, 2.678784, -6.4671564, 4.9497476, -4.9497476, 6.4671564, -2.678784)
 
-[node name="_ColorRect_148" type="ColorRect" parent="HUD/_Node2D_129" unique_id=1687219963]
+[node name="_ColorRect_148" type="ColorRect" parent="HUD/SeedRoot" unique_id=1687219963]
 offset_left = 166.0
 offset_top = 2.0
 offset_right = 180.0
 offset_bottom = 20.0
 color = Color(1, 1, 1, 0.08)
 
-[node name="_Polygon2D_149" type="Polygon2D" parent="HUD/_Node2D_129" unique_id=1536810647]
+[node name="_Polygon2D_149" type="Polygon2D" parent="HUD/SeedRoot" unique_id=1536810647]
 visible = false
 position = Vector2(173, 11)
 polygon = PackedVector2Array(7, 0, 6.4671564, 2.678784, 4.9497476, 4.9497476, 2.678784, 6.4671564, 4.2861222e-16, 7, -2.678784, 6.4671564, -4.9497476, 4.9497476, -6.4671564, 2.678784, -7, 8.5722445e-16, -6.4671564, -2.678784, -4.9497476, -4.9497476, -2.678784, -6.4671564, -1.2858367e-15, -7, 2.678784, -6.4671564, 4.9497476, -4.9497476, 6.4671564, -2.678784)
 
-[node name="_Label_150" type="Label" parent="HUD" unique_id=1158129849]
+[node name="HoldingLabel" type="Label" parent="HUD" unique_id=1158129849]
 offset_left = 287.0
 offset_top = 658.0
 offset_right = 1007.0
@@ -1033,7 +1033,7 @@ theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 14
 text = "Holding: nothing"
 
-[node name="_Label_151" type="Label" parent="HUD" unique_id=1816873940]
+[node name="WateringCanLabel" type="Label" parent="HUD" unique_id=1816873940]
 offset_left = 1060.0
 offset_top = 658.0
 offset_right = 1060.0
@@ -1042,21 +1042,21 @@ theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 14
 text = "Watering can"
 
-[node name="_ColorRect_152" type="ColorRect" parent="HUD" unique_id=1867665168]
+[node name="WaterBarBg" type="ColorRect" parent="HUD" unique_id=1867665168]
 offset_left = 1060.0
 offset_top = 682.0
 offset_right = 1260.0
 offset_bottom = 698.0
 color = Color(0, 0, 0, 0.5)
 
-[node name="_ColorRect_153" type="ColorRect" parent="HUD" unique_id=981590002]
+[node name="WaterBar" type="ColorRect" parent="HUD" unique_id=981590002]
 offset_left = 1060.0
 offset_top = 682.0
 offset_right = 1260.0
 offset_bottom = 698.0
 color = Color(0.3, 0.7, 1, 1)
 
-[node name="_Label_154" type="Label" parent="HUD" unique_id=233570888]
+[node name="WaterText" type="Label" parent="HUD" unique_id=233570888]
 offset_left = 1060.0
 offset_top = 681.0
 offset_right = 1260.0
@@ -1066,7 +1066,7 @@ theme_override_font_sizes/font_size = 12
 text = "300 / 300"
 horizontal_alignment = 1
 
-[node name="_Label_155" type="Label" parent="HUD" unique_id=697531647]
+[node name="HintLabel" type="Label" parent="HUD" unique_id=697531647]
 offset_top = 614.0
 offset_right = 1280.0
 offset_bottom = 644.0

@@ -2,9 +2,6 @@ extends Node2D
 
 # Top-level game manager: uses nodes from the scene instead of building them.
 
-const POT_POSITIONS := [
-	Vector2(320, 110), Vector2(540, 110), Vector2(760, 110), Vector2(980, 110),
-]
 const CUSTOMER_SPOTS := [
 	Vector2(900, 605),
 	Vector2(1030, 605),
@@ -32,31 +29,21 @@ var day_active: bool = true
 var game_over: bool = false
 var time_warning_played: bool = false
 
-var counter: Counter
-var workbench: Workbench
-var player: Player
-var hud: HUD
+@onready var counter: Counter = $Counter
+@onready var workbench: Workbench = $Workbench
+@onready var player: Player = $Player
+@onready var hud: HUD = $HUD
+
 var customers: Array = []
 
 func _ready() -> void:
 	randomize()
 	_setup_input_map()
-	
-	# LINKING NODES: Find nodes already present in the scene tree.
-	# Adjust the names inside get_node() if you named them differently in the editor.
-	# The "$" symbol is a shorthand for get_node().
-	counter = get_node_or_null("Counter")
-	workbench = get_node_or_null("Workbench")
-	player = get_node_or_null("Player")
-	hud = get_node_or_null("HUD")
-	
-	# Ensure the objects know about the game manager
-	if counter: counter.game = self
-	if workbench: workbench.game = self
-	if player: player.game = self
-	if hud: hud.game = self
-	
-	_build_world() # This is now empty or only for small adjustments
+	counter.game = self
+	workbench.game = self
+	player.game = self
+	hud.game = self
+	_build_world()
 
 func _setup_input_map() -> void:
 	_bind("move_left", [KEY_A, KEY_LEFT])
@@ -76,16 +63,11 @@ func _bind(action: String, keys: Array) -> void:
 	for k in keys:
 		var ev := InputEventKey.new()
 		ev.keycode = k
-		InputMap.action_add_event(action, ev)
+		if not InputMap.action_has_event(action, ev):
+			InputMap.action_add_event(action, ev)
 
 func _build_world() -> void:
-	# Keep this empty since we now have everything in the .tscn scene file.
-	# You can use this for one-time initialization if needed.
 	hud.show_message("Day 1\nGrow flowers, fill orders, pay rent.", 2.5)
-
-func _zone(pos: Vector2, size: Vector2, col: Color) -> void:
-	# No longer needed as we use ColorRects in the scene.
-	pass
 
 func _process(delta: float) -> void:
 	if game_over:

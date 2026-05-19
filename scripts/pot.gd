@@ -96,23 +96,13 @@ func _create_bubble() -> void:
 	bubble_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 
 func _bind_existing_visual_nodes() -> bool:
-	for child in get_children():
-		if child is ColorRect:
-			var rect := child as ColorRect
-			if rect.size == Vector2(56, 36) and rect.position == Vector2(-28, -10):
-				pot_visual = rect
-			elif rect.size == Vector2(50, 8) and rect.position == Vector2(-25, -14):
-				soil_visual = rect
-			elif rect.size == Vector2(3, 28) and rect.position == Vector2(-1, -36):
-				stem_visual = rect
-			elif rect.size.y == 4.0 and rect.position == Vector2(-25, 18):
-				growth_bar = rect
-			elif rect.size.y == 3.0 and rect.position == Vector2(-25, 24):
-				water_bar = rect
-		elif child is Polygon2D and flower_visual == null:
-			flower_visual = child as Polygon2D
-		elif child is Label and label_node == null:
-			label_node = child as Label
+	pot_visual = get_node_or_null("PotVisual") as ColorRect
+	soil_visual = get_node_or_null("SoilVisual") as ColorRect
+	stem_visual = get_node_or_null("StemVisual") as ColorRect
+	flower_visual = get_node_or_null("FlowerVisual") as Polygon2D
+	growth_bar = get_node_or_null("GrowthBar") as ColorRect
+	water_bar = get_node_or_null("WaterBar") as ColorRect
+	label_node = get_node_or_null("StatusLabel") as Label
 	return pot_visual != null and soil_visual != null and stem_visual != null and flower_visual != null and growth_bar != null and water_bar != null and label_node != null
 
 func _process(delta: float) -> void:
