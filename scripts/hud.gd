@@ -232,3 +232,75 @@ func show_game_over(days_survived: int) -> void:
 	prompt.size = Vector2(VIEWPORT_WIDTH, 30)
 	prompt.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	panel.add_child(prompt)
+
+func show_tutorial() -> void:
+	if day_panel != null:
+		day_panel.queue_free()
+
+	day_panel = Control.new()
+	day_panel.size = Vector2(VIEWPORT_WIDTH, VIEWPORT_HEIGHT)
+	add_child(day_panel)
+
+	# Dark background overlay
+	var dim := ColorRect.new()
+	dim.size = Vector2(VIEWPORT_WIDTH, VIEWPORT_HEIGHT)
+	dim.color = Color(0, 0, 0, 0.8)
+	day_panel.add_child(dim)
+
+	# Tutorial panel background
+	var panel_bg := ColorRect.new()
+	panel_bg.size = Vector2(700, 500)
+	panel_bg.position = Vector2(290, 110)
+	panel_bg.color = Color(0.1, 0.08, 0.06, 1.0)
+	day_panel.add_child(panel_bg)
+
+	# Title
+	var title := Label.new()
+	title.text = "HOW TO PLAY"
+	title.add_theme_font_size_override("font_size", 36)
+	title.add_theme_color_override("font_color", Color(0.92, 0.90, 0.85))
+	title.position = Vector2(290, 130)
+	title.size = Vector2(700, 50)
+	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	day_panel.add_child(title)
+
+	# Instructions text
+	var instructions := Label.new()
+	instructions.text = """
+GROW FLOWERS - Plant seeds and water them to grow flowers
+FILL ORDERS - Customers arrive with orders. Pick the right flowers!
+PAY RENT - Earn money from flower sales to pay daily rent
+
+CONTROLS:
+WASD / Arrow Keys - Move
+SPACE - Interact
+F - Pick/Drop flowers
+1,2,3 - Plant different seeds
+R - Restart game
+
+Each day gets harder with bigger orders and more impatient customers!
+"""
+	instructions.add_theme_font_size_override("font_size", 14)
+	instructions.add_theme_color_override("font_color", Color.WHITE)
+	instructions.position = Vector2(310, 190)
+	instructions.size = Vector2(660, 280)
+	instructions.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+	instructions.vertical_alignment = VERTICAL_ALIGNMENT_TOP
+	instructions.autowrap_mode = TextServer.AUTOWRAP_WORD
+	day_panel.add_child(instructions)
+
+	# Play button
+	var button := Button.new()
+	button.text = "PLAY"
+	button.position = Vector2(540, 510)
+	button.size = Vector2(200, 50)
+	button.add_theme_font_size_override("font_size", 24)
+	button.pressed.connect(_on_play_button_pressed)
+	day_panel.add_child(button)
+
+func _on_play_button_pressed() -> void:
+	if day_panel != null:
+		day_panel.queue_free()
+		day_panel = null
+	if game != null:
+		game.start_game()

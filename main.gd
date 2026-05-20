@@ -25,9 +25,10 @@ var day: int = 1
 var rent: int = STARTING_RENT
 var time_left: float = DAY_LENGTH
 var customer_spawn_timer: float = 6.0
-var day_active: bool = true
+var day_active: bool = false
 var game_over: bool = false
 var time_warning_played: bool = false
+var game_started: bool = false
 
 @onready var counter: Counter = $Counter
 @onready var workbench: Workbench = $Workbench
@@ -67,14 +68,14 @@ func _bind(action: String, keys: Array) -> void:
 			InputMap.action_add_event(action, ev)
 
 func _build_world() -> void:
-	hud.show_message("Day 1\nGrow flowers, fill orders, pay rent.", 2.5)
+	hud.show_tutorial()
 
 func _process(delta: float) -> void:
 	if game_over:
 		if Input.is_action_just_pressed("restart"):
 			get_tree().reload_current_scene()
 		return
-	if not day_active:
+	if not game_started or not day_active:
 		return
 	time_left -= delta
 	customer_spawn_timer -= delta
@@ -141,6 +142,11 @@ func remove_customer(c: Customer) -> void:
 
 func add_money(amount: int) -> void:
 	money += amount
+
+func start_game() -> void:
+	game_started = true
+	day_active = true
+	hud.show_message("Day 1\nGrow flowers, fill orders, pay rent.", 2.5)
 
 func _end_day() -> void:
 	day_active = false
